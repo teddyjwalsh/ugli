@@ -1,0 +1,20 @@
+
+
+in vec3 n;
+out vec3 r;
+out vec3 origins;
+out float intensity;
+
+uniform sampler1D origins;
+uniform sampler1D reflections;
+uniform sampler1D intensities;
+
+void main()
+{
+    
+    vec3 d = gl_FragCoord - light_pos;
+    origins = gl_FragCoord.xyz;
+    vec3 norm_d = normalize(d);
+    intensity = dot(norm_d,n);
+    r = d - 2*(intensity)*n; 
+}

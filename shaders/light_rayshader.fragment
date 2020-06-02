@@ -1,0 +1,17 @@
+
+in vec3 n;
+out vec3 r;
+out vec3 origins;
+out float intensity;
+
+uniform vec3 light_pos;
+uniform vec3 camera_pos;
+
+void main()
+{
+    vec3 d = gl_FragCoord - light_pos;
+    origins = gl_FragCoord.xyz;
+    vec3 norm_d = normalize(d);
+    intensity = dot(norm_d,n);
+    r = d - 2*(intensity)*n; 
+}

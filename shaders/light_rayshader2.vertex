@@ -1,0 +1,10 @@
+
+in vec4 v_pos;
+float max_distance = 1000;
+
+uniform vec3 player_pos;
+
+void main()
+{
+    gl_Position = vec4((v_pos - player_pos)/max_distance, 1.0);
+}

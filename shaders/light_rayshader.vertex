@@ -1,0 +1,19 @@
+
+in vec3 v_pos;
+in vec3 v_norm;
+out vec3 norm;
+out vec4 gl_Position_light;
+
+uniform mat4 model_mat_l;
+uniform mat4 view_mat_l;
+uniform mat4 proj_mat_l;
+uniform mat4 model_mat_c;
+uniform mat4 view_mat_c;
+uniform mat4 proj_mat_c;
+
+void main()
+{
+    gl_Position = proj_mat_l*view_mat_l*model_mat_l*vec4(v_pos, 1.0);
+    gl_Position_cam = proj_mat_c*view_mat_c*model_mat_c*vec4(v_pos, 1.0);
+    norm = v_norm; 
+}
