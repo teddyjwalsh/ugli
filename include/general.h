@@ -6,12 +6,12 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "graphics/gl_includes.h"
-#include "graphics/camera.h"
-#include "graphics/object.h"
-#include "graphics/shader.h"
-#include "graphics/texture.h"
-#include "graphics/definitions.h"
+#include "gl_includes.h"
+#include "camera.h"
+#include "object.h"
+#include "shader.h"
+#include "texture.h"
+#include "definitions.h"
 
 namespace graphics
 {

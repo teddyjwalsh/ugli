@@ -7,9 +7,9 @@
 #include <unordered_set>
 #include <vector>
 
-#include <graphics/Camera.h>	
-#include <graphics/General.h>
-#include <graphics/Object.h>
+#include <Camera.h>	
+#include <General.h>
+#include <Object.h>
 
 namespace graphics
 {

@@ -4,7 +4,7 @@
 
 #include "glm/glm.hpp"
 
-#include "graphics/entity.h"
+#include "entity.h"
 
 namespace graphics
 {

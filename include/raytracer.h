@@ -9,16 +9,16 @@
 
 #include <glm/glm.hpp>
 
-#include "graphics/object.h"
-#include "graphics/general.h"
-#include "graphics/camera.h"
-#include "graphics/loadbmp.h"
-#include "graphics/texture.h"
-#include "graphics/shader.h"
-#include "graphics/buffer.h"
-#include "graphics/octree.h"
+#include "object.h"
+#include "general.h"
+#include "camera.h"
+#include "loadbmp.h"
+#include "texture.h"
+#include "shader.h"
+#include "buffer.h"
+#include "octree.h"
 
-#include "graphics/chunk_memory.h"
+#include "chunk_memory.h"
 
 
 #define MAX_OCTREE_ELEMENTS 1000

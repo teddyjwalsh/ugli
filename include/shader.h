@@ -8,10 +8,10 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 
-#include "graphics/gl_includes.h"
-#include "graphics/buffer.h"
-#include "graphics/definitions.h"
-#include "graphics/texture.h"
+#include "gl_includes.h"
+#include "buffer.h"
+#include "definitions.h"
+#include "texture.h"
 
 namespace graphics
 {

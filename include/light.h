@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_LIGHT_H_
 #define GRAPHICS_LIGHT_H_
 
-#include "graphics/entity.h"
+#include "entity.h"
 
 namespace graphics
 {

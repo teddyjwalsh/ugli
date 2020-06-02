@@ -2,7 +2,7 @@
 #ifndef GRAPHICS_TEXTURE_H_
 #define GRAPHICS_TEXTURE_H_
 
-#include "graphics/gl_includes.h"
+#include "gl_includes.h"
 
 namespace graphics
 {

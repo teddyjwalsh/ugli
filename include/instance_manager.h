@@ -6,7 +6,7 @@
 #include <functional>
 
 #include <glm/glm.hpp>
-#include "graphics/buffer.h"
+#include "buffer.h"
 
 namespace graphics
 {

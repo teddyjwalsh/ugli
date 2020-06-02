@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-#include "graphics/gl_includes.h"
+#include "gl_includes.h"
 
 namespace graphics
 {

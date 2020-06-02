@@ -6,12 +6,12 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "glm/gtx/string_cast.hpp"
 
-#include "graphics/gl_includes.h"
-#include "graphics/entity.h"
-#include "graphics/buffer.h"
-#include "graphics/structures.h"
-#include "graphics/shader.h"
-#include "graphics/definitions.h"
+#include "gl_includes.h"
+#include "entity.h"
+#include "buffer.h"
+#include "structures.h"
+#include "shader.h"
+#include "definitions.h"
 
 namespace graphics
 {

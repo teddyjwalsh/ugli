@@ -8,8 +8,8 @@
 
 #include <glm/glm.hpp>
 
-#include "graphics/buffer.h"
-#include "graphics/chunk_index_map.h"
+#include "buffer.h"
+#include "chunk_index_map.h"
 
 struct chunk_alloc
 {
