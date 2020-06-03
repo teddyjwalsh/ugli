@@ -39,7 +39,8 @@ public:
 		_local_index(_max_chunks, { glm::vec4(0.0),  _max_chunks + 1})  // Init all _local_index values to invalid (mem_index = -1)
 	{
 		_full_chunk_buffer_size = _chunk_block_count * _max_chunks; // Why do I have to initialize this here?
-		_chunk_buffer->load_data(std::vector<int>(), _full_chunk_buffer_size);
+        std::vector<int> temp_vec;
+		_chunk_buffer->load_data(temp_vec, _full_chunk_buffer_size);
 		_index_buffer->load_data(_local_index);
 		_spatial_chunk_buffer->load_data(_index_map._data);
 		_local_index.clear();
