@@ -239,6 +239,27 @@ public:
 			in_data.data());
 	}
 
+	void get_data(std::vector<glm::vec4>& in_data,
+                  int start_x,
+                  int start_y,
+                  int size_x,
+                  int size_y)
+	{
+		in_data.resize(size_x * size_y);
+		glGetTextureSubImage(get_texture_name(),
+			0,
+            start_x,
+            start_y,
+            0,
+            size_x,
+            size_y,
+            1,
+			_format,
+			GL_FLOAT,
+			_size_x * _size_y * sizeof(glm::vec4),
+			in_data.data());
+	}
+
 	bool rendering_enabled() const
 	{
 		return _rendering_enabled;

@@ -74,6 +74,7 @@ public:
 		_out_tex_bounce_pass(std::make_shared<graphics::Texture2D>(x_res, y_res)),
 		_out_tex_low_res(std::make_shared<graphics::Texture2D>(x_res/_low_res_div, y_res/_low_res_div)),
 		_norm_tex(std::make_shared<graphics::Texture2D>(x_res, y_res)),
+		_block_types(std::make_shared<graphics::Texture2D>(x_res, y_res)),
 		_norm_tex_low_res(std::make_shared<graphics::Texture2D>(x_res/_low_res_div, y_res/ _low_res_div)),
 		_pos_tex(std::make_shared<graphics::Texture2D>(x_res/ _low_res_div, y_res/ _low_res_div)),
 		_c_shader(std::make_shared<graphics::ComputeShader>("../shaders/multi_ray.glsl")),
@@ -103,6 +104,7 @@ public:
 		_compute_program->bind_image_texture(_out_tex, 1);
 		//_compute_program->bind_image_texture(_out_tex_bounce_pass, 3);
 		_compute_program->bind_image_texture(_out_tex_low_res, 7);
+		_compute_program->bind_image_texture(_block_types, 4);
 		_compute_program->bind_image_texture(_norm_tex, 6);
 		_compute_program->bind_image_texture(_norm_tex_low_res, 2);
 		_compute_program->bind_image_texture(_pos_tex, 0);
@@ -434,6 +436,13 @@ public:
 		_chunk_buffer_manager.set_ref(in_vec);
 	}
 
+    int get_screen_loc_block_type(float x, float y)
+    {
+        std::vector<glm::vec4> types;
+        _block_types->get_data(types, x*_x_res, y*_y_res, 1, 1);
+        return types[0].x;
+    }
+
 private:
 	int _cube_count_x;
 	int _cube_count_y;
@@ -463,6 +472,7 @@ private:
 	std::shared_ptr<graphics::Texture2D> _out_tex_bounce_pass;
 	std::shared_ptr<graphics::Texture2D> _out_tex_low_res;
 	std::shared_ptr<graphics::Texture2D> _norm_tex;
+	std::shared_ptr<graphics::Texture2D> _block_types;
 	std::shared_ptr<graphics::Texture2D> _norm_tex_low_res;
 	std::shared_ptr<graphics::Texture2D> _pos_tex;
 	std::shared_ptr<graphics::Shader> _c_shader;
