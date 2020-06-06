@@ -60,4 +60,4 @@ protected:
 
 }
 
-#endif GRAPHICS_ENTITY_H_
+#endif  // GRAPHICS_ENTITY_H_

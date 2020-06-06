@@ -2,6 +2,11 @@
 #ifndef GRAPHICS_TEXTURE_H_
 #define GRAPHICS_TEXTURE_H_
 
+#include <vector>
+#include <iostream>
+
+#include "glm/glm.hpp"
+
 #include "gl_includes.h"
 
 namespace graphics
@@ -303,4 +308,4 @@ private:
 
 }  // namespace graphics
 
-#endif GRAPHICS_TEXTURE_H_
+#endif  // GRAPHICS_TEXTURE_H_

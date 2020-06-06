@@ -18,7 +18,7 @@ class Mesh
 	std::vector<glm::vec3> normals;
 };
 
-Mesh create_cube(double edge_length=1, 
+inline Mesh create_cube(double edge_length=1, 
 					double x=0, double y=0, double z=0)
 {
 	Mesh out_mesh;

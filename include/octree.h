@@ -331,4 +331,4 @@ private:
     int _mapped_depth;
 };
 
-#endif GRAPHICS_OCTREE_H_
+#endif // GRAPHICS_OCTREE_H_
