@@ -134,6 +134,30 @@ void init(int x_res=1024, int y_res=1024)
     glFrontFace(GL_CCW);
 }
 
+void draw_object(std::shared_ptr<Object> in_object)
+{
+    set_program(in_object->get_program());
+    in_object->bind();
+    in_object->get_program()->set_uniform_mat4("model_mat", in_object->get_transform());
+    //GLuint model_mat_loc = glGetUniformLocation(
+    //    in_object->get_program()->get_program_name(), "model_mat");
+    //glm::mat4 model_mat = in_object->get_transform();
+    //glUniformMatrix4fv(model_mat_loc, 1, GL_FALSE, glm::value_ptr(model_mat));
+    if (in_object->is_instanced())
+    {
+        glDrawArraysInstanced(GL_TRIANGLES, 
+            0, 
+            in_object->vertex_count(), 
+            in_object->get_instance_count());
+    }
+    else
+    {
+        glDrawArrays(GL_TRIANGLES, 
+            0, 
+            in_object->vertex_count());
+    }
+}
+
 void draw_object(std::shared_ptr<Object> in_object, 
     std::shared_ptr<Camera> in_camera)
 {
