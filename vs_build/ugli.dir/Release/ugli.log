@@ -1,0 +1,74 @@
+﻿  Building Custom Rule C:/Users/tjwal/projects/ECS/ugli/CMakeLists.txt
+cl : command line warning D9002: ignoring unknown option '-ggdb'
+cl : command line warning D9002: ignoring unknown option '-std=c++17'
+  main.cpp
+C:\Users\tjwal\projects\ECS\ugli\include\octree.h(41,117): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tjwal\projects\ECS\ugli\include\octree.h(58,54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\octree.h(93,1): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\octree.h(169,121): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tjwal\projects\ECS\ugli\include\octree.h(186,56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(66,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(67,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(68,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(118,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(119,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(120,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(140,1): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(89,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(158,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(180,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(214,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(267,1): warning C4267: 'argument': conversion from 'size_t' to 'GLint', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(442,50): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(442,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(443,24): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(35,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(28): message : while compiling class template member function 'void graphics::Buffer<glm::vec4>::load_data(std::vector<glm::vec4,std::allocator<glm::vec4>> &,int,GLenum)'
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(182): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec4>::load_data(std::vector<glm::vec4,std::allocator<glm::vec4>> &,int,GLenum)' being compiled
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(182): message : see reference to class template instantiation 'graphics::Buffer<glm::vec4>' being compiled
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(88,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(84): message : while compiling class template member function 'void graphics::Buffer<chunk_alloc>::set_data(int,std::vector<chunk_alloc,std::allocator<chunk_alloc>> &,int)'
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(63): message : see reference to function template instantiation 'void graphics::Buffer<chunk_alloc>::set_data(int,std::vector<chunk_alloc,std::allocator<chunk_alloc>> &,int)' being compiled
+C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h(44): message : see reference to class template instantiation 'graphics::Buffer<chunk_alloc>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xmemory(202,109): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\memory(1490): message : see reference to function template instantiation 'void std::_Construct_in_place<_Ty,unsigned __int64>(_Ty &,unsigned __int64 &&) noexcept(false)' being compiled
+          with
+          [
+              _Ty=graphics::Texture1D
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\memory(1590): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<unsigned __int64>(unsigned __int64 &&)' being compiled
+          with
+          [
+              _Ty=graphics::Texture1D
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\memory(1591): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<unsigned __int64>(unsigned __int64 &&)' being compiled
+          with
+          [
+              _Ty=graphics::Texture1D
+          ]
+C:\Users\tjwal\projects\ECS\ugli\.\include\raytracer.h(160): message : see reference to function template instantiation 'std::shared_ptr<graphics::Texture1D> std::make_shared<graphics::Texture1D,unsigned __int64>(unsigned __int64 &&)' being compiled
+  text.cpp
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(35,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(28): message : while compiling class template member function 'void graphics::Buffer<glm::vec3>::load_data(std::vector<glm::vec3,std::allocator<glm::vec3>> &,int,GLenum)'
+C:\Users\tjwal\projects\ECS\ugli\include\object.h(44): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec3>::load_data(std::vector<glm::vec3,std::allocator<glm::vec3>> &,int,GLenum)' being compiled
+C:\Users\tjwal\projects\ECS\ugli\include\object.h(44): message : see reference to class template instantiation 'graphics::Buffer<glm::vec3>' being compiled
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(88,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(84): message : while compiling class template member function 'void graphics::Buffer<glm::vec3>::set_data(int,std::vector<glm::vec3,std::allocator<glm::vec3>> &,int)'
+C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(34): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec3>::set_data(int,std::vector<glm::vec3,std::allocator<glm::vec3>> &,int)' being compiled
+  Generating Code...
+cl : command line warning D9002: ignoring unknown option '-ggdb'
+cl : command line warning D9002: ignoring unknown option '-std=c++17'
+  glad.c
+  ugli.vcxproj -> C:\Users\tjwal\projects\ECS\ugli\vs_build\Release\ugli.exe
