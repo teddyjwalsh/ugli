@@ -21,8 +21,8 @@ public:
 		return _texture_name;
 	}
 
-private:
 	GLuint _texture_name;
+private:
 };
 
 class Texture3D : public Texture
@@ -163,6 +163,16 @@ public:
 		}
 	}
 
+    ~Texture2D()
+    {
+        if (_rendering_enabled)
+        {
+            glDeleteFramebuffers(1, &_framebuffer_name);
+        }
+        glDeleteTextures(1, &_texture_name);
+        glDeleteTextures(1, &_depth_texture);
+    }
+
 	void enable_rendering(bool enable)
 	{
 		if (!_rendering_enabled)
@@ -217,6 +227,12 @@ public:
 	void set_data(int x_offset, int y_offset, int width, int height,
 		std::vector<glm::vec4> in_data)
 	{
+        set_data(x_offset, y_offset, width, height, reinterpret_cast<char*>(in_data.data()));
+	}
+
+    void set_data(int x_offset, int y_offset, int width, int height,
+                  char * in_data)
+    {
 		glTextureSubImage2D(get_texture_name(),
 			0,
 			x_offset,
@@ -225,8 +241,8 @@ public:
 			height,
 			_format,
 			GL_FLOAT,
-			in_data.data());
-	}
+			in_data);
+    }
 
 	void get_data(std::vector<glm::vec4>& in_data)
 	{
