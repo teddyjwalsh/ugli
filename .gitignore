@@ -12,3 +12,6 @@ _deps
 dir_build
 *.tlog
 *.obj
+*.exe
+*.pdb
+*.ilk
