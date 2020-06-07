@@ -8,9 +8,9 @@ in vec2 uv_vec;
 void main()
 {
     vec4 tex = imageLoad(texinp, ivec2(uv_vec));
-    frag_color = vec4(tex.r);
+    frag_color = vec4(1.0,1.0,1.0,tex.r);
     if (tex.r < 0.8)
     {
-        discard;
+        //discard;
     }
 }

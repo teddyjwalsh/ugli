@@ -17,14 +17,18 @@ namespace graphics
 class TextEngine
 {
 public:
-    TextEngine()
+    TextEngine():
+        _size(256)
     {
         auto error = FT_Init_FreeType(&_library);
+        
         if (error)
         {
             std::cout << "Freetype init error" << "\n";
         }
         load_font_face("arial", "../fonts/arial.ttf");
+        load_font_face("helvetica", "../fonts/Helvetica 400.ttf");
+        load_font_face("roboto", "../fonts/Roboto-Regular.ttf");
     }
 
     void load_font_face(std::string name, std::string ttf_path)
@@ -49,7 +53,7 @@ public:
         error = FT_Set_Char_Size(
                     _faces[name],
                     0,
-                    16*64,
+                    16*_size,
                     300,
                     300);
     }
@@ -61,7 +65,7 @@ public:
                                         in_char);
         auto error = FT_Load_Glyph(_faces[font_name],
                                    glyph_index,
-                                   FT_LOAD_DEFAULT);
+                                   FT_LOAD_RENDER);
         if (error)
         {
             std::cout << "Error loading glyph" << "\n";
@@ -76,6 +80,8 @@ public:
 
         return &_faces[font_name]->glyph->bitmap;
     }
+    
+    int _size;
 
 private:
     FT_Library _library;
@@ -90,7 +96,7 @@ public:
     TextObject(std::string text, int height, std::string font_name) :
         _width(10 * height),
         _height(height),
-        _texture(std::make_shared<Texture2D>(10 * height, height, GL_RED, GL_UNSIGNED_BYTE)),
+        _texture(std::make_shared<Texture2D>(10 * g_engine._size, g_engine._size, GL_RED, GL_UNSIGNED_BYTE)),
         _font_name(font_name)
     {
         std::vector<Vertex> vxs = {
@@ -102,12 +108,12 @@ public:
                                    Vertex(_width,0,0),                        
         };
         std::vector<glm::vec2> uvs = {
-                           glm::vec2(0,_height),
-                           glm::vec2(_width,_height),
+                           glm::vec2(0,g_engine._size),
+                           glm::vec2(10*g_engine._size,g_engine._size),
                            glm::vec2(0,0),
-                           glm::vec2(_width,0),
+                           glm::vec2(10*g_engine._size,0),
                            glm::vec2(0,0),
-                           glm::vec2(_width,_height),
+                           glm::vec2(10*g_engine._size,g_engine._size),
         };
         std::vector<unsigned char> fake_data(_width * height, 128);
         load_uvs(uvs);
@@ -121,23 +127,25 @@ public:
         _shader->add_shader(f_shader);
         _shader->compile_and_link();
         set_shader(_shader);
-        set_pos(glm::vec3(-0.5, -0.5, 0));
+        set_pos(glm::vec3(100, 100, 0));
         set_rot(glm::mat4(1));
         int x_res, y_res;
         get_window_size(x_res, y_res);
-        set_scale(glm::vec3(2 * 1.0f / x_res, 2 * 1.0f / x_res, 0));
+        //set_scale(glm::vec3(2 * 1.0f / x_res, 2 * 1.0f / x_res, 0));
         _shader->bind_image_texture(_texture, 0);
     }
 
     void set_text(std::string text)
     {
+        int slide = 0;
         for (int i = 0; i < text.length(); ++i)
         {
             auto bm = g_engine.render_glyph(text[i], _font_name);
             std::vector<unsigned char> fake_data(bm->width * _height, 128);
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
             //_texture->set_data(i * bm->width, 0, bm->width, _height, (unsigned char*)fake_data.data());
-            _texture->set_data(i*_height, 0, bm->width, bm->rows, (unsigned char*)bm->buffer);
+            _texture->set_data(slide, g_engine._size - bm->rows, bm->width, bm->rows, (unsigned char*)bm->buffer);
+            slide += bm->width + _height*0.2;
         }
     }
 

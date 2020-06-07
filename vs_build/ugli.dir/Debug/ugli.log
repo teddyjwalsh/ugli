@@ -33,6 +33,7 @@ C:\Users\tjwal\projects\ECS\ugli\include\raytracer.h(443,24): warning C4244: 're
           [
               T=float
           ]
+C:\Users\tjwal\projects\ECS\ugli\include\text.h(148,1): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
 C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(35,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(28): message : while compiling class template member function 'void graphics::Buffer<glm::vec4>::load_data(std::vector<glm::vec4,std::allocator<glm::vec4>> &,int,GLenum)'
 C:\Users\tjwal\projects\ECS\ugli\include\raytracer.h(182): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec4>::load_data(std::vector<glm::vec4,std::allocator<glm::vec4>> &,int,GLenum)' being compiled
@@ -59,6 +60,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
           ]
 C:\Users\tjwal\projects\ECS\ugli\include\raytracer.h(160): message : see reference to function template instantiation 'std::shared_ptr<graphics::Texture1D> std::make_shared<graphics::Texture1D,unsigned __int64>(unsigned __int64 &&)' being compiled
   text.cpp
+C:\Users\tjwal\projects\ECS\ugli\include\text.h(148,1): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
 C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(35,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\tjwal\projects\ECS\ugli\include\buffer.h(28): message : while compiling class template member function 'void graphics::Buffer<glm::vec2>::load_data(std::vector<glm::vec2,std::allocator<glm::vec2>> &,int,GLenum)'
 C:\Users\tjwal\projects\ECS\ugli\include\object.h(57): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec2>::load_data(std::vector<glm::vec2,std::allocator<glm::vec2>> &,int,GLenum)' being compiled

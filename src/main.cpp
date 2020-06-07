@@ -7,7 +7,7 @@
 int main()
 {
     graphics::init(500,500);
-    auto to = std::make_shared<graphics::TextObject>("ABCDE", 50, "arial");
+    auto to = std::make_shared<graphics::TextObject>("CChHCunks: 20", 50, "roboto");
     
     while (1)
     {
