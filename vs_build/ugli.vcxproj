@@ -344,6 +344,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\structures.h" />
     <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\text.h" />
     <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\texture.h" />
+    <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\general.cpp" />
     <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\main.cpp" />
     <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\text.cpp" />
     <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\glad\src\glad.c">

@@ -6,6 +6,7 @@
 #include "ft2build.h"
 #include FT_FREETYPE_H
 
+#include "general.h"
 #include "texture.h"
 #include "object.h"
 
@@ -86,20 +87,21 @@ extern TextEngine g_engine;
 class TextObject : public Object
 {
 public:
-    TextObject(std::string text, int height, std::string font_name):
-        _width(32*height),
+    TextObject(std::string text, int height, std::string font_name) :
+        _width(32 * height),
         _height(height),
-        _texture(height, 32*height),
+        _texture(height, 32 * height),
         _font_name(font_name)
     {
         std::vector<Vertex> vxs = {
                                    Vertex(0,0,0),
                                    Vertex(_width,0,0),
                                    Vertex(0,_height,0),
-                                   Vertex(_width,0,0),
+                                   Vertex(_width,_height,0),
                                    Vertex(0,_height,0),
-                                   Vertex(_width,_height,0)
-                                  };
+                                   Vertex(_width,0,0),
+                                   
+        };
         load_vertices(vxs);
         set_text(text);
         std::shared_ptr<Shader> v_shader = std::make_shared<Shader>(GL_VERTEX_SHADER, "../shaders/vertex.glsl");
@@ -110,7 +112,10 @@ public:
         _shader->compile_and_link();
         set_shader(_shader);
         set_pos(glm::vec3(-0.5, -0.5, 0));
-        set
+        set_rot(glm::mat4(1));
+        int x_res, y_res;
+        get_window_size(x_res, y_res);
+        set_scale(glm::vec3(2 * 1.0f / x_res, 2 * 1.0f / x_res, 0));
     }
 
     void set_text(std::string text)
