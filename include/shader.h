@@ -19,6 +19,7 @@ namespace graphics
 const std::string DEFAULT_VERSION_STRING = "#version 460 core";
 const std::string DEFAULT_VERTEX_POSITION_VARIABLE = "v_pos";
 const std::string DEFAULT_VERTEX_NORMAL_VARIABLE = "v_norm";
+const std::string DEFAULT_VERTEX_UV_VARIABLE = "v_uv";
 const std::string DEFAULT_INSTANCE_VARIABLE = "instance_var";
 
 class ShaderBase

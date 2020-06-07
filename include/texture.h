@@ -140,13 +140,14 @@ private:
 class Texture2D : public Texture
 {
 public:
-	Texture2D(GLsizei size_x, GLsizei size_y, GLenum format = GL_RGBA) :
+	Texture2D(GLsizei size_x, GLsizei size_y, GLenum format = GL_RGBA, GLenum type = GL_FLOAT) :
 		_size_x(size_x),
 		_size_y(size_y),
-		_format(format)
+		_format(format),
+		_type(type)
 	{
 		bind();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, _size_x, _size_y, 0, format, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, _size_x, _size_y, 0, format, _type, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -159,7 +160,7 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, _size_x, _size_y, 0, format, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, _size_x, _size_y, 0, format, _type, NULL);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR)
@@ -232,12 +233,17 @@ public:
 	void set_data(int x_offset, int y_offset, int width, int height,
 		std::vector<glm::vec4> in_data)
 	{
-        set_data(x_offset, y_offset, width, height, reinterpret_cast<char*>(in_data.data()));
+        set_data(x_offset, y_offset, width, height, reinterpret_cast<unsigned char*>(in_data.data()));
 	}
 
     void set_data(int x_offset, int y_offset, int width, int height,
-                  char * in_data)
+                  unsigned char * in_data)
     {
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR)
+		{
+			printf("ERROR\n");
+		}
 		glTextureSubImage2D(get_texture_name(),
 			0,
 			x_offset,
@@ -245,8 +251,13 @@ public:
 			width,
 			height,
 			_format,
-			GL_FLOAT,
+			_type,
 			in_data);
+		err = glGetError();
+		if (err != GL_NO_ERROR)
+		{
+			printf("ERROR\n");
+		}
     }
 
 	void get_data(std::vector<glm::vec4>& in_data)
@@ -255,7 +266,7 @@ public:
 		glGetTextureImage(get_texture_name(),
 			0,
 			_format,
-			GL_FLOAT,
+			_type,
 			_size_x * _size_y * sizeof(glm::vec4),
 			in_data.data());
 	}
@@ -276,7 +287,7 @@ public:
             size_y,
             1,
 			_format,
-			GL_FLOAT,
+			_type,
 			_size_x * _size_y * sizeof(glm::vec4),
 			in_data.data());
 	}

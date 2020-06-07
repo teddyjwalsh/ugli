@@ -7,13 +7,13 @@
 int main()
 {
     graphics::init(500,500);
-    auto to = std::make_shared<graphics::TextObject>("TEST test", 20, "arial");
+    auto to = std::make_shared<graphics::TextObject>("ABCDE", 50, "arial");
     
     while (1)
     {
         graphics::start_loop();
         graphics::draw_object(to);
         graphics::end_loop();
-        Sleep(10);
+        //Sleep(10);
     }
 }

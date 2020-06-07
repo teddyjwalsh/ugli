@@ -23,6 +23,7 @@ class Object : public Entity
 		_is_instanced(false),
 		_vertices(std::make_shared<Buffer<Vertex>>()),
 		_normals(std::make_shared<Buffer<glm::vec3>>()),
+		_uvs(std::make_shared<Buffer<glm::vec2>>()),
 		_instances(std::make_shared<Buffer<glm::vec3>>(GL_ARRAY_BUFFER, true))
 	{
 		glGenVertexArrays(1, &_vertex_array);	
@@ -49,6 +50,11 @@ class Object : public Entity
 	void load_normals(std::vector<glm::vec3> normals)
 	{
 		_normals->load_data(normals);
+	}
+
+	void load_uvs(std::vector<glm::vec2> vertices)
+	{
+		_uvs->load_data(vertices);
 	}
 
 	void enable_instancing(bool enable=true)
@@ -101,6 +107,13 @@ class Object : public Entity
 			DEFAULT_VERTEX_NORMAL_VARIABLE.c_str());
 		glEnableVertexAttribArray(_NORMAL_BINDING);
 		glVertexAttribPointer(_NORMAL_BINDING, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		_uvs->bind();
+		glBindAttribLocation(_program->get_program_name(),
+			_UV_BINDING,
+			DEFAULT_VERTEX_UV_VARIABLE.c_str());
+		glEnableVertexAttribArray(_UV_BINDING);
+		glVertexAttribPointer(_UV_BINDING, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		_program->link();
 	}
 
@@ -137,6 +150,7 @@ class Object : public Entity
 
 	std::shared_ptr<Buffer<Vertex>> _vertices;
 	std::shared_ptr <Buffer<glm::vec3>> _normals;
+	std::shared_ptr <Buffer<glm::vec2>> _uvs;
 	std::shared_ptr <Buffer<glm::vec3>> _instances;
   private:
 	bool _is_instanced;
@@ -146,6 +160,7 @@ class Object : public Entity
 	int _POSITION_BINDING = 0;
 	int _NORMAL_BINDING = 1;
 	int _INSTANCE_BINDING = 2;
+	int _UV_BINDING = 3;
 };
 
 }  // namespace graphics

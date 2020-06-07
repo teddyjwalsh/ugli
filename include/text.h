@@ -88,9 +88,9 @@ class TextObject : public Object
 {
 public:
     TextObject(std::string text, int height, std::string font_name) :
-        _width(32 * height),
+        _width(10 * height),
         _height(height),
-        _texture(height, 32 * height),
+        _texture(std::make_shared<Texture2D>(10 * height, height, GL_RED, GL_UNSIGNED_BYTE)),
         _font_name(font_name)
     {
         std::vector<Vertex> vxs = {
@@ -99,10 +99,20 @@ public:
                                    Vertex(0,_height,0),
                                    Vertex(_width,_height,0),
                                    Vertex(0,_height,0),
-                                   Vertex(_width,0,0),
-                                   
+                                   Vertex(_width,0,0),                        
         };
+        std::vector<glm::vec2> uvs = {
+                           glm::vec2(0,_height),
+                           glm::vec2(_width,_height),
+                           glm::vec2(0,0),
+                           glm::vec2(_width,0),
+                           glm::vec2(0,0),
+                           glm::vec2(_width,_height),
+        };
+        std::vector<unsigned char> fake_data(_width * height, 128);
+        load_uvs(uvs);
         load_vertices(vxs);
+        //_texture->set_data(0, 0, _width, _height, (unsigned char*)fake_data.data());
         set_text(text);
         std::shared_ptr<Shader> v_shader = std::make_shared<Shader>(GL_VERTEX_SHADER, "../shaders/vertex.glsl");
         std::shared_ptr<Shader> f_shader = std::make_shared<Shader>(GL_FRAGMENT_SHADER, "../shaders/fragment.glsl");
@@ -116,19 +126,23 @@ public:
         int x_res, y_res;
         get_window_size(x_res, y_res);
         set_scale(glm::vec3(2 * 1.0f / x_res, 2 * 1.0f / x_res, 0));
+        _shader->bind_image_texture(_texture, 0);
     }
 
     void set_text(std::string text)
     {
         for (int i = 0; i < text.length(); ++i)
         {
-            auto bm = g_engine.render_glyph(text[0], _font_name);
-            _texture.set_data(i*_height, 0, bm->width, bm->rows, reinterpret_cast<char*>(bm->buffer)); 
+            auto bm = g_engine.render_glyph(text[i], _font_name);
+            std::vector<unsigned char> fake_data(bm->width * _height, 128);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            //_texture->set_data(i * bm->width, 0, bm->width, _height, (unsigned char*)fake_data.data());
+            _texture->set_data(i*_height, 0, bm->width, bm->rows, (unsigned char*)bm->buffer);
         }
     }
 
 private:
-    Texture2D _texture;
+    std::shared_ptr<Texture2D> _texture;
     std::shared_ptr<Program> _shader;
     int _width;
     int _height;
