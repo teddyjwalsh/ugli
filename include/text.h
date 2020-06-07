@@ -23,6 +23,7 @@ public:
         {
             std::cout << "Freetype init error" << "\n";
         }
+        load_font_face("arial", "../fonts/arial.ttf");
     }
 
     void load_font_face(std::string name, std::string ttf_path)
@@ -88,7 +89,7 @@ public:
     TextObject(std::string text, int height, std::string font_name):
         _width(32*height),
         _height(height),
-        _texture(_height, _width),
+        _texture(height, 32*height),
         _font_name(font_name)
     {
         std::vector<Vertex> vxs = {
@@ -101,6 +102,15 @@ public:
                                   };
         load_vertices(vxs);
         set_text(text);
+        std::shared_ptr<Shader> v_shader = std::make_shared<Shader>(GL_VERTEX_SHADER, "../shaders/vertex.glsl");
+        std::shared_ptr<Shader> f_shader = std::make_shared<Shader>(GL_FRAGMENT_SHADER, "../shaders/fragment.glsl");
+        _shader = std::make_shared<Program>();
+        _shader->add_shader(v_shader);
+        _shader->add_shader(f_shader);
+        _shader->compile_and_link();
+        set_shader(_shader);
+        set_pos(glm::vec3(-0.5, -0.5, 0));
+        set
     }
 
     void set_text(std::string text)
@@ -114,6 +124,7 @@ public:
 
 private:
     Texture2D _texture;
+    std::shared_ptr<Program> _shader;
     int _width;
     int _height;
     std::string _font_name;

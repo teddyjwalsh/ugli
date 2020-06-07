@@ -2,7 +2,9 @@
 
 layout(location = 0) in vec3 vpos;
 
+uniform mat4 model_mat;
+
 void main()
 {
-    gl_Position = vec4(vpos, 1.0);
+    gl_Position = model_mat*vec4(vpos, 1.0);
 }

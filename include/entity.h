@@ -47,6 +47,11 @@ public:
 		return _rot;
 	}
 
+	void set_scale(glm::vec3 in_scale)
+	{
+		_scale = in_scale;
+	}
+
 	glm::vec3 get_scale() const
 	{
 		return _scale;
