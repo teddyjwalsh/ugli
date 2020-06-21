@@ -6,10 +6,12 @@
 namespace graphics
 {
 
-class Vertex : public glm::vec3
-{	
-	using glm::vec3::vec3;
-};
+typedef glm::vec3 Vertex;
+
+//class Vertex : public glm::vec3
+//{	
+//	using glm::vec3::vec3;
+//};
 
 class Mesh
 {

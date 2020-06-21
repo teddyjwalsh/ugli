@@ -8,7 +8,7 @@ link_directories("./lib64")
 find_library(glfw glfw)
 find_library(dl dl)
 find_library(freetype freetype)
-add_executable(ugli ${ugli_src} ${glad_src})
+add_library(ugli ${ugli_src} ${glad_src})
 
 target_include_directories(ugli PUBLIC ./)
 target_include_directories(ugli PUBLIC ./include)

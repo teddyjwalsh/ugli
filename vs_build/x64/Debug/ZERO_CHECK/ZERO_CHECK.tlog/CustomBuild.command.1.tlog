@@ -1,6 +1,6 @@
-^C:\USERS\TJWAL\PROJECTS\ECS\UGLI\VS_BUILD\CMAKEFILES\1303CFCFA8D1D70AB3F3EAC602F5B17B\GENERATE.STAMP.RULE
+^C:\USERS\TJWAL\PROJECTS\VERTEX_STREAM\UGLI\VS_BUILD\CMAKEFILES\7407E397B762F712F554588D870C5C00\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/tjwal/projects/ECS/ugli -BC:/Users/tjwal/projects/ECS/ugli/vs_build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/tjwal/projects/ECS/ugli/vs_build/ugli_proj.sln
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/tjwal/projects/vertex_stream/ugli -BC:/Users/tjwal/projects/vertex_stream/ugli/vs_build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/ugli_proj.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

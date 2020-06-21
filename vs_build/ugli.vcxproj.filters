@@ -1,90 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\general.cpp">
+    <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\general.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\main.cpp">
+    <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\src\text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\tjwal\projects\ECS\ugli\glad\src\glad.c">
+    <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\buffer.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\camera.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\chunk_index_map.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\chunk_index_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\chunk_memory.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\chunk_memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\context.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\definitions.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\definitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\entity.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\framebuffer.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\general.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\general.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\gl_includes.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\gl_includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\instance_manager.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\instance_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\light.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\loadbmp.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\loadbmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\object.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\octree.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\octree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\raytracer.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\raytracer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\shader.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\structures.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\structures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\text.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\tjwal\projects\ECS\ugli\include\texture.h">
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\tjwal\projects\ECS\ugli\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\tjwal\projects\vertex_stream\ugli\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{ABD5DD4E-B1A5-3ACA-B464-1E3CE3E9293B}</UniqueIdentifier>
+      <UniqueIdentifier>{B6C7DD33-B6C3-3623-9447-85765AB7E914}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{281A4732-222F-332B-BE13-9CC2177A1BC6}</UniqueIdentifier>
+      <UniqueIdentifier>{9C0B4BC3-EEEF-3BAC-8303-388B1B75CB68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

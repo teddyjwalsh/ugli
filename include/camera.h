@@ -30,8 +30,8 @@ public:
 	glm::mat4 get_projection() const
 	{
 		glm::mat4 projection_matrix = glm::perspective(
-			glm::radians(90.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
-			4.0f / 3.0f,       // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
+			glm::radians(60.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
+			3.0f / 3.0f,       // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
 			0.1f,              // Near clipping plane. Keep as big as possible, or you'll get precision issues.
 			100.0f             // Far clipping plane. Keep as little as possible.
 		);
