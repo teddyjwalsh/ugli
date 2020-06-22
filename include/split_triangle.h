@@ -25,7 +25,7 @@ void print_triangle(const Triangle& tri, const int indent = 0)
     }
 }
 
-void split_triangle_on_plane(Triangle& tri, std::vector<Triangle>& out_triangles, glm::vec3& n, glm::vec3& p)
+void split_triangle_on_plane(const Triangle& tri, std::vector<Triangle>& out_triangles, glm::vec3& n, glm::vec3& p)
 {
     const float epsilon = 0.00000001;
     glm::vec3 v1 = tri[2] - tri[1];
@@ -119,7 +119,7 @@ void split_triangle_on_plane(Triangle& tri, std::vector<Triangle>& out_triangles
     }
 }
 
-void split_triangle(Triangle& tri, std::vector<Triangle>& out_triangles, glm::vec3& loc, float size)
+void split_triangle(const Triangle& tri, std::vector<Triangle>& out_triangles, glm::vec3& loc, float size)
 {
     glm::vec3 node_center = loc + glm::vec3(size/2.0);
     glm::vec3 n(0,1,0);

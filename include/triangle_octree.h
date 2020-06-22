@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <unordered_set>
+#include <filesystem>
 #include "glm/glm.hpp"
 #include <boost/iostreams/device/mapped_file.hpp>
 #include "tiny_obj_loader.h"
@@ -129,6 +130,10 @@ public:
         _proto_node.size = 10;
         _proto_node.loc = glm::vec3(0);
         _data[_root] = _proto_node;
+        for (int i = 0; i < 8; ++i)
+        {
+            _proto_node.children[i] = -1;
+        }
         _last_tri = 0;
         _from_file = false;
     }
@@ -138,22 +143,49 @@ public:
         const std::string& norm_filepath,
         const std::string& obj_filepath):
             _octree_filepath(octree_filepath),
-            _tri_filepath(octree_filepath),
+            _tri_filepath(tri_filepath),
             _obj_filepath(obj_filepath),
-            _norm_filepath(octree_filepath)
+            _norm_filepath(norm_filepath)
     {
         _proto_node.size = 10;
         _proto_node.loc = glm::vec3(0);
-        _data[_root] = _proto_node;
+        for (int i = 0; i < 8; ++i)
+        {
+            _proto_node.children[i] = -1;
+        }
         _last_tri = 0;
         set_data_from_files();
+        load_model();
     }
 
     void set_data_from_files()
     {
-        _octree_file.open(_octree_filepath);
-        _tri_file.open(_octree_filepath);
-        _norm_file.open(_norm_filepath);
+        if (!std::filesystem::exists(_octree_filepath))
+        {
+            FILE * fd = fopen(_octree_filepath.c_str(), "wb");
+            fwrite(reinterpret_cast<void*>(&_proto_node), sizeof(Node), 1, fd);
+            fclose(fd);
+        }
+        if (!std::filesystem::exists(_tri_filepath))
+        {
+            FILE * fd = fopen(_tri_filepath.c_str(), "wb");
+            Triangle temp_tri;
+            fwrite(reinterpret_cast<void*>(&temp_tri), sizeof(Triangle), 1, fd);
+            fclose(fd);
+        }
+        if (!std::filesystem::exists(_norm_filepath))
+        {
+            FILE * fd = fopen(_norm_filepath.c_str(), "wb");
+            glm::vec3 temp_vec;
+            fwrite(reinterpret_cast<void*>(&temp_vec), sizeof(glm::vec3), 1, fd);
+            fclose(fd);
+        }
+        auto _filesize = std::filesystem::file_size(_octree_filepath);
+        auto _tri_filesize = std::filesystem::file_size(_tri_filepath);
+        auto _norm_filesize = std::filesystem::file_size(_norm_filepath);
+        _octree_file.open(_octree_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+        _tri_file.open(_tri_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+        _norm_file.open(_norm_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
         _data = reinterpret_cast<Node*>(_octree_file.data());
         _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
         _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
@@ -169,11 +201,74 @@ public:
         std::string err;
         std::string warn;
         bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, _obj_filepath.c_str());
+        printf(warn.c_str());
         printf(err.c_str());
 
         if (_octree_file.is_open())
         {
-            // Loop over shapes
+            // Find bounds to create root node
+            glm::vec3 max_vec;
+            glm::vec3 min_vec;
+            for (size_t s = 0; s < shapes.size(); s++) 
+            {
+              // Loop over faces(polygon)
+              size_t index_offset = 0;
+              
+              for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) 
+              {
+                int fv = shapes[s].mesh.num_face_vertices[f];
+                glm::vec3 norm;
+                glm::vec3 center(0);
+                for (size_t v = 0; v < fv; v++) 
+                {
+                  tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+                  tinyobj::real_t vx = attrib.vertices[3*idx.vertex_index+0];
+                  tinyobj::real_t vy = attrib.vertices[3*idx.vertex_index+1];
+                  tinyobj::real_t vz = attrib.vertices[3*idx.vertex_index+2];
+                  if (f == 0 && s == 0 && v == 0)
+                  {
+                    min_vec.x = vx; min_vec.y = vy; min_vec.z = vz;
+                    max_vec = min_vec;
+                  }
+                  if (vx > max_vec.x)
+                  {
+                    max_vec.x = vx;
+                  }
+                  if (vy > max_vec.y)
+                  {
+                    max_vec.y = vy;
+                  }
+                  if (vz > max_vec.z)
+                  {
+                    max_vec.z = vz;
+                  }
+                  if (vx < min_vec.x)
+                  {
+                    min_vec.x = vx;
+                  }
+                  if (vy < min_vec.y)
+                  {
+                    min_vec.y = vy;
+                  }
+                  if (vz < min_vec.z)
+                  {
+                    min_vec.z = vz;
+                  }
+                }
+                index_offset += fv;
+              }
+            }
+            glm::vec3 diff = max_vec - min_vec;
+            _proto_node.size = std::max({diff.x, diff.y, diff.z});
+            _proto_node.loc = min_vec;
+            printf("Root Node:\n");
+            print_vertex(_proto_node.loc);
+            printf("\n\t%f\n", _proto_node.size);
+            _data[_root] = _proto_node;
+
+
+            // Add triangles to octree
+            //    Loop over shapes
             for (size_t s = 0; s < shapes.size(); s++) {
               // Loop over faces(polygon)
               size_t index_offset = 0;
@@ -206,7 +301,12 @@ public:
                   //test_tri[v][2] = scale*vz + 9.0;
                 }
                 norm = glm::normalize(glm::cross(test_tri[1] - test_tri[0], test_tri[0] - test_tri[2]));
+                float root_size = _data[0].size;
                 add_triangle(test_tri, norm);
+                if (root_size != _data[0].size)
+                {
+                    printf("ROOT CORRUPETED!!!!\n");
+                }
                 index_offset += fv;
 
                 // per-face material
@@ -224,7 +324,7 @@ public:
             glm::length(tri[2] - tri[1]) });
     }
 
-    glm::vec2 intersect_box(const glm::vec3& origin, glm::vec3& dir, 
+    glm::vec2 intersect_box(const glm::vec3& origin, const glm::vec3& dir, 
                             const glm::vec3& box_origin, float box_size) const
     {
         const glm::vec3& b_min = box_origin;
@@ -247,19 +347,27 @@ public:
         //_proto_node.parent = parent;
         if (_from_file)
         {
-            if (_octree_file.max_length < sizeof(Node) * _last_node)
+            if (_filesize < sizeof(Node) * (_last_node-20))
             {
-                _octree_file.resize(_octree_file.max_length + 100*sizeof(Node));
+                float root_size = _data[_root].size;
+                _octree_file.resize((_last_node + 3000000)*sizeof(Node));
+                _data = reinterpret_cast<Node*>(_octree_file.data());
+                if (root_size != _data[_root].size)
+                {
+                    printf("Root node corrupted!\n");
+                }
+                _filesize = (_last_node + 3000000)*sizeof(Node);
             }
         }
-        _data[_last_node] = _proto_node;
+        //_data[_last_node] = _proto_node;
+        reinterpret_cast<Node*>(_octree_file.data())[_last_node] = _proto_node;
         return _last_node;
     }
 
     int child_index_of_point(const glm::vec3& coord, 
         glm::vec3& node_loc, 
         float size, 
-        const glm::vec3& child_pos) const
+        glm::vec3& child_pos) const
     {
         glm::vec3 node_center = node_loc + glm::vec3(size/2.0);
         
@@ -279,10 +387,10 @@ public:
         return child_index;
     }
 
-    int child_index_of_triangle(const &Triangle& tri, 
+    int child_index_of_triangle(const Triangle& tri, 
         const glm::vec3& node_loc, 
         float size, 
-        const glm::vec3& child_pos) const
+        glm::vec3& child_pos) const
     {
         glm::vec3 edge1 = tri[1] - tri[0];
         glm::vec3 edge2 = tri[2] - tri[0];
@@ -374,6 +482,7 @@ public:
         depth += 1;
         NodeHandle c_node = start_node;
         glm::vec3 child_pos;
+        float root_size = _data[0].size;
         int child_index = child_index_of_triangle(tri,
                             _data[c_node].loc,
                             _data[c_node].size,
@@ -381,6 +490,10 @@ public:
 
         // While all vertices of triangle fit in 
         // a single child of the current node
+        if (root_size != _data[0].size)
+        {
+            printf("CORRUPT 0\n");
+        }
         while (child_index >= 0)
         {
             // If current node already has a child there
@@ -388,6 +501,10 @@ public:
             if (_data[c_node].children[child_index] >= 0)
             {
                 c_node = _data[c_node].children[child_index];
+                if (c_node == 0)
+                {
+                    printf("ZERO CHILD~!!!\n");
+                }
             }
             else // Node child where triangle is located, create new
             {
@@ -401,12 +518,20 @@ public:
                             _data[c_node].size,
                             child_pos);
         }
+        if (root_size != _data[0].size)
+        {
+            printf("CORRUPT 1\n");
+        }
         if (_data[c_node].tri_count == MAX_TRIS || largest_side(tri) < _data[c_node].size / 2)// || _data[c_node].size > 0.1)
         {
             std::vector<Triangle> tris;
             glm::vec3 new_loc;
             float new_size;
             split_triangle(tri, tris, _data[c_node].loc, _data[c_node].size);
+                if (root_size != _data[0].size)
+                {
+                    printf("CORRUPT 1.01\n");
+                }
             if (tris.size() > 1)
             {
                 for (auto& t : tris)
@@ -417,6 +542,10 @@ public:
                         continue;
                     add_triangle(t, norm, c_node, depth);
                 }
+                if (root_size != _data[0].size)
+                {
+                    printf("CORRUPT 1.1\n");
+                }
             }
             else
             {
@@ -424,16 +553,47 @@ public:
                 {
                     _last_tri += 1;
                     _data[c_node].tris[_data[c_node].tri_count] = _last_tri;
+                if (root_size != _data[0].size)
+                {
+                    printf("CORRUPT 1.x\n");
+                }
+                    if (_from_file)
+                    {
+                        if (_tri_filesize < sizeof(Triangle) * (_last_tri - 5))
+                        {
+                            printf("Resize\n");
+                            _tri_file.resize((_last_tri + 1000000)*sizeof(Triangle));
+                            _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
+                            _tri_filesize = (_last_tri + 1000000)*sizeof(Triangle);
+                        }
+                        if (_norm_filesize < sizeof(glm::vec3) * (_last_tri - 5))
+                        {
+                            printf("Resize norm\n");
+                            _norm_file.resize((_last_tri + 1000000)*sizeof(glm::vec3));
+                            _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
+                            _norm_filesize = (_last_tri + 1000000)*sizeof(glm::vec3);
+                        }
+                    }
 
-                    _tri_data[_last_tri] = tri;
-                    _norm_data[_last_tri] = norm;
+                    while (!_norm_file.is_open() || !_tri_file.is_open())
+                    {}
+                    reinterpret_cast<Triangle*>(_tri_file.data())[_last_tri] = tri;
+                    reinterpret_cast<glm::vec3*>(_norm_file.data())[_last_tri] = norm;
                     _data[c_node].tri_count += 1;
                 }
                 else
                 {
                     //printf("Dropped TRiangle!\n");
                 }
+                if (root_size != _data[0].size)
+                {
+                    printf("CORRUPT 1.2\n");
+                }
            } 
+            if (root_size != _data[0].size)
+            {
+                printf("CORRUPT 2.1\n");
+            }
         }
         else // if (!addit)
         {
@@ -443,16 +603,36 @@ public:
                 _data[c_node].tris[_data[c_node].tri_count] = _last_tri;
                 if (_from_file)
                 {
-                    if (_tri_file.max_length < sizeof(Triangle) * _last_tri)
+                    if (_tri_filesize < sizeof(Triangle) * (_last_tri - 5))
                     {
-                        _norm_file.resize(_norm_file.max_length + 100 * sizeof(glm::vec3));
-                        _tri_file.resize(_tri_file.max_length + 100 * sizeof(Triangle));
+                        printf("Resize\n");
+                        _tri_file.resize((_last_tri + 10000000)*sizeof(Triangle));
+                        _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
+                        _tri_filesize = (_last_tri + 10000000)*sizeof(Triangle);
+                    }
+                    if (_norm_filesize < sizeof(glm::vec3) * (_last_tri - 5))
+                    {
+                        printf("Resize norm\n");
+                        _norm_file.resize((_last_tri + 10000000)*sizeof(glm::vec3));
+                        _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
+                        _norm_filesize = (_last_tri + 10000000)*sizeof(glm::vec3);
                     }
                 }
-                _tri_data[_last_tri] = tri;
-                _norm_data[_last_tri] = norm;
+
+                while (!_norm_file.is_open() || !_tri_file.is_open())
+                {}
+                reinterpret_cast<Triangle*>(_tri_file.data())[_last_tri] = tri;
+                reinterpret_cast<glm::vec3*>(_norm_file.data())[_last_tri] = norm;
                 _data[c_node].tri_count += 1;
             }
+            if (root_size != _data[0].size)
+            {
+                printf("CORRUPT 2.2\n");
+            }
+        }
+        if (root_size != _data[0].size)
+        {
+            printf("CORRUPT 2\n");
         }
         return c_node;
     }
@@ -555,6 +735,9 @@ private:
     boost::iostreams::mapped_file _octree_file;
     boost::iostreams::mapped_file _tri_file;
     boost::iostreams::mapped_file _norm_file;
+    int _filesize;
+    int _tri_filesize;
+    int _norm_filesize;
     bool _from_file;
     size_t _length;
     Node * _data;
