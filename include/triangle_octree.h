@@ -133,10 +133,10 @@ public:
         _from_file = false;
     }
 
-    TriangleOctree(std::string octree_filepath, 
-        std::string tri_filepath,
-        std::string norm_filepath,
-        std::string obj_filepath):
+    TriangleOctree(const std::string& octree_filepath, 
+        const std::string& tri_filepath,
+        const std::string& norm_filepath,
+        const std::string& obj_filepath):
             _octree_filepath(octree_filepath),
             _tri_filepath(octree_filepath),
             _obj_filepath(obj_filepath),
@@ -146,6 +146,7 @@ public:
         _proto_node.loc = glm::vec3(0);
         _data[_root] = _proto_node;
         _last_tri = 0;
+        set_data_from_files();
     }
 
     void set_data_from_files()
@@ -216,15 +217,15 @@ public:
         }
     }
 
-    float largest_side(Triangle& tri)
+    float largest_side(const Triangle& tri) const
     {
         return std::max({ glm::length(tri[2] - tri[0]),
             glm::length(tri[1] - tri[0]),
             glm::length(tri[2] - tri[1]) });
     }
 
-    glm::vec2 intersect_box(glm::vec3 origin, glm::vec3 dir, 
-                            const glm::vec3 box_origin, float box_size)  const
+    glm::vec2 intersect_box(const glm::vec3& origin, glm::vec3& dir, 
+                            const glm::vec3& box_origin, float box_size) const
     {
         const glm::vec3& b_min = box_origin;
         glm::vec3 b_max = box_origin + glm::vec3(box_size);
@@ -238,7 +239,7 @@ public:
         return glm::vec2(tNear,tFar);
     }
 
-    NodeHandle add_node(glm::vec3 loc, float size, NodeHandle parent)
+    NodeHandle add_node(const glm::vec3& loc, float size, NodeHandle parent)
     {
         _last_node += 1;
         _proto_node.size = size;
@@ -255,7 +256,10 @@ public:
         return _last_node;
     }
 
-    int child_index_of_point(glm::vec3& coord, glm::vec3& node_loc, float size, glm::vec3& child_pos) const
+    int child_index_of_point(const glm::vec3& coord, 
+        glm::vec3& node_loc, 
+        float size, 
+        const glm::vec3& child_pos) const
     {
         glm::vec3 node_center = node_loc + glm::vec3(size/2.0);
         
@@ -275,7 +279,10 @@ public:
         return child_index;
     }
 
-    int child_index_of_triangle(Triangle& tri, glm::vec3 node_loc, float size, glm::vec3& child_pos)
+    int child_index_of_triangle(const &Triangle& tri, 
+        const glm::vec3& node_loc, 
+        float size, 
+        const glm::vec3& child_pos) const
     {
         glm::vec3 edge1 = tri[1] - tri[0];
         glm::vec3 edge2 = tri[2] - tri[0];
@@ -359,7 +366,10 @@ public:
         return child_index2;
     }
 
-    NodeHandle add_triangle(Triangle& tri, glm::vec3& norm, NodeHandle start_node=0,  int depth=0)
+    NodeHandle add_triangle(const Triangle& tri, 
+        const glm::vec3& norm, 
+        NodeHandle start_node=0,  
+        int depth=0)
     {
         depth += 1;
         NodeHandle c_node = start_node;
@@ -391,7 +401,6 @@ public:
                             _data[c_node].size,
                             child_pos);
         }
-        bool addit = false;
         if (_data[c_node].tri_count == MAX_TRIS || largest_side(tri) < _data[c_node].size / 2)// || _data[c_node].size > 0.1)
         {
             std::vector<Triangle> tris;
@@ -400,7 +409,6 @@ public:
             split_triangle(tri, tris, _data[c_node].loc, _data[c_node].size);
             if (tris.size() > 1)
             {
-                addit = true;
                 for (auto& t : tris)
                 {
                     glm::vec3 edge1 = glm::normalize(t[0] - t[1]);
@@ -452,8 +460,8 @@ public:
     // Need to find largest node containing a point that 
     // doesn't contain a triangle. Node doesn't need to exist
     // This is not possible if point is in triangle smallest node
-    bool find_largest_non_container(glm::vec3 point, 
-        glm::vec3 dir, 
+    bool find_largest_non_container(const glm::vec3& point, 
+        const glm::vec3& dir, 
         glm::vec3& node_loc, 
         float& size, 
         NodeHandle& found_handle, 
@@ -483,7 +491,7 @@ public:
                 for (int i = 0; i < _data[c_node].tri_count; ++i)
                 {
                     glm::vec3 hit_point;
-                    bool hit = RayIntersectsTriangle(point , dir, _tri_data[_data[c_node].tris[i]], hit_point);
+                    bool hit = RayIntersectsTriangle(point, dir, _tri_data[_data[c_node].tris[i]], hit_point);
                     if (hit)
                     {
                         if (glm::dot(hit_point - point, dir) > 0)
@@ -508,8 +516,8 @@ public:
         }
     }
 
-    glm::vec3 propogate_ray(glm::vec3 origin, 
-        glm::vec3 dir, 
+    glm::vec3 propogate_ray(const glm::vec3& origin, 
+        const glm::vec3& dir, 
         bool& found_tri, 
         glm::vec3& vtx, 
         glm::vec3& normal, 
@@ -529,19 +537,16 @@ public:
             glm::sign(to_center_real.y)* float(int(to_center.y > to_center.x && to_center.y >= to_center.z)),
             glm::sign(to_center_real.z)* float(int(to_center.z > to_center.x && to_center.z > to_center.y)));
 
-        glm::vec3 n2((int(to_center.x > to_center.y&& to_center.x > to_center.z)),
-            (int(to_center.y > to_center.y&& to_center.y > to_center.z)),
-            (int(to_center.z > to_center.x&& to_center.z > to_center.y)));
-
         return origin + dir * (x.y) + n * glm::max( size * 0.01f, 0.0001f );
     }
 
-    int size()
+    int size() const
     {
         return _last_node + 1;
     }
 
     NodeHandle _last_node = 0;
+
 private:
     std::string _octree_filepath;
     std::string _tri_filepath;
