@@ -63,6 +63,9 @@
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\split_triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\structures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,6 +73,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\triangle_octree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\vs_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "shader.h"
 #include "texture.h"
 #include "definitions.h"
+#include "triangle_octree.h"
 
 namespace graphics
 {
