@@ -1,11 +1,1 @@
-﻿cl : command line warning D9002: ignoring unknown option '-ggdb'
-cl : command line warning D9002: ignoring unknown option '-std=c++17'
-  general.cpp
-C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h(35,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h(28): message : while compiling class template member function 'void graphics::Buffer<glm::vec2>::load_data(std::vector<glm::vec2,std::allocator<glm::vec2>> &,int,GLenum)'
-C:\Users\tjwal\projects\vertex_stream\ugli\include\object.h(57): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec2>::load_data(std::vector<glm::vec2,std::allocator<glm::vec2>> &,int,GLenum)' being compiled
-C:\Users\tjwal\projects\vertex_stream\ugli\include\object.h(57): message : see reference to class template instantiation 'graphics::Buffer<glm::vec2>' being compiled
-C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h(88,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h(84): message : while compiling class template member function 'void graphics::Buffer<glm::vec2>::set_data(int,std::vector<glm::vec2,std::allocator<glm::vec2>> &,int)'
-C:\Users\tjwal\projects\vertex_stream\ugli\include\buffer.h(34): message : see reference to function template instantiation 'void graphics::Buffer<glm::vec2>::set_data(int,std::vector<glm::vec2,std::allocator<glm::vec2>> &,int)' being compiled
-  ugli.vcxproj -> C:\Users\tjwal\projects\vertex_stream\ugli\vs_build\Debug\ugli.lib
+﻿LINK : fatal error LNK1104: cannot open file 'libboost_iostreams-vc142-mt-gd-x64-1_73.lib'

@@ -31,22 +31,22 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
@@ -62,19 +62,27 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\tjwal\projects\vertex_stream\ugli\vs_build\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ugli.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ugli</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\tjwal\projects\vertex_stream\ugli\vs_build\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ugli.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ugli</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\tjwal\projects\vertex_stream\ugli\vs_build\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ugli.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ugli</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\tjwal\projects\vertex_stream\ugli\vs_build\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ugli.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ugli</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -98,21 +106,29 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <Lib>
+    <Link>
+      <AdditionalDependencies>..\lib64\glfw3.lib;..\lib64\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/tjwal/projects/vertex_stream/ugli/./lib64;C:/Users/tjwal/projects/vertex_stream/ugli/./lib64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <AdditionalDependencies>libboost_iostreams-vc142-mt-gd-x64-1_73.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Boost\lib</AdditionalLibraryDirectories>
-    </Lib>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/Debug/ugli.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/Debug/ugli.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -136,21 +152,29 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <Lib>
+    <Link>
+      <AdditionalDependencies>..\lib64\glfw3.lib;..\lib64\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/tjwal/projects/vertex_stream/ugli/./lib64;C:/Users/tjwal/projects/vertex_stream/ugli/./lib64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <AdditionalDependencies>libboost_iostreams-vc142-mt-x64-1_73.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Boost\lib</AdditionalLibraryDirectories>
-    </Lib>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/Release/ugli.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/Release/ugli.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
@@ -174,21 +198,29 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <Lib>
+    <Link>
+      <AdditionalDependencies>..\lib64\glfw3.lib;..\lib64\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/tjwal/projects/vertex_stream/ugli/./lib64;C:/Users/tjwal/projects/vertex_stream/ugli/./lib64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <AdditionalDependencies>libboost_iostreams-vc142-mt-x64-1_73.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Boost\lib</AdditionalLibraryDirectories>
-    </Lib>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/MinSizeRel/ugli.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/MinSizeRel/ugli.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
@@ -211,21 +243,29 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <Lib>
+    <Link>
+      <AdditionalDependencies>..\lib64\glfw3.lib;..\lib64\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/tjwal/projects/vertex_stream/ugli/./lib64;C:/Users/tjwal/projects/vertex_stream/ugli/./lib64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <AdditionalDependencies>libboost_iostreams-vc142-mt-x64-1_73.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Boost\lib</AdditionalLibraryDirectories>
-    </Lib>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/RelWithDebInfo/ugli.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/tjwal/projects/vertex_stream/ugli/vs_build/RelWithDebInfo/ugli.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\tjwal\projects\vertex_stream\ugli\CMakeLists.txt">
@@ -305,9 +345,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\structures.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\text.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\texture.h" />
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\tiny_obj_loader.h" />
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\triangle.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\triangle_octree.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\vs_object.h" />
     <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\general.cpp" />
+    <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\main.cpp" />
     <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\text.cpp" />
     <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\glad\src\glad.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>

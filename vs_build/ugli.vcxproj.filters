@@ -4,6 +4,9 @@
     <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\general.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\tjwal\projects\vertex_stream\ugli\src\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +76,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\triangle_octree.h">

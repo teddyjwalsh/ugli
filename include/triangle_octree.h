@@ -136,9 +136,7 @@ public:
     TriangleOctree(std::string octree_filepath, 
         std::string tri_filepath,
         std::string norm_filepath,
-        std::string obj_filepath,
-        size_t length):
-            _length(length),
+        std::string obj_filepath):
             _octree_filepath(octree_filepath),
             _tri_filepath(octree_filepath),
             _obj_filepath(obj_filepath),
@@ -486,7 +484,6 @@ public:
                 {
                     glm::vec3 hit_point;
                     bool hit = RayIntersectsTriangle(point , dir, _tri_data[_data[c_node].tris[i]], hit_point);
-                    //print_triangle(_tri_data[_data[c_node].tris[i]], 1);
                     if (hit)
                     {
                         if (glm::dot(hit_point - point, dir) > 0)
@@ -504,13 +501,6 @@ public:
             }
             else
             {
-            /*
-                printf("Point node!!!\n");
-                print_vertex(point);
-                printf("\n");
-                print_vertex(_data[c_node].loc);
-                printf("\n size %f\n", _data[c_node].size);
-                */
                 node_loc = child_pos;
                 size = _data[c_node].size/2.0;
                 return false;
@@ -521,7 +511,6 @@ public:
     glm::vec3 propogate_ray(glm::vec3 origin, 
         glm::vec3 dir, 
         bool& found_tri, 
-        Node& found_node, 
         glm::vec3& vtx, 
         glm::vec3& normal, 
         std::unordered_set<int>& checked) const
@@ -531,10 +520,6 @@ public:
         glm::vec3 node_loc;
         float size;
         found_tri = find_largest_non_container(origin, dir, node_loc, size, found_handle, vtx, normal, checked);
-        if (found_tri)
-        {
-            //found_node = _data[found_handle];
-        }
         glm::vec2 x = intersect_box(origin, dir, node_loc, size);
 
         glm::vec3 intersect_point = origin + dir * (x.y);
@@ -572,7 +557,6 @@ private:
     glm::vec3* _norm_data;
     Node _proto_node;
     NodeHandle _root = 0;
-    
     int _last_tri = -1;
 
 };
