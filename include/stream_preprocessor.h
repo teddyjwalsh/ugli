@@ -59,6 +59,20 @@ public:
             if (missed)
             {
                 finished[min_i] = true;
+                min_i = 0;
+                bool all_finished = true;
+                for (int i = 0; i < _octrees.size(); ++i)
+                {
+                    if (!finished[i])
+                    {
+                        min_i = i;
+                        all_finished = false;
+                    }
+                }
+                if (all_finished)
+                {
+                    break;
+                }
             }
             int finished_count = 0;
             for (int i = 0; i < positions.size(); ++i)
