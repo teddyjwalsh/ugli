@@ -87,7 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) -ggdb -std=c++17</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) -ggdb -O3 -std=c++17</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -101,11 +101,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -133,7 +133,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) -ggdb -std=c++17</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) -ggdb -O3 -std=c++17</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -145,13 +145,13 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -179,7 +179,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) -ggdb -std=c++17</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) -ggdb -O3 -std=c++17</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -191,13 +191,13 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -225,7 +225,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) -ggdb -std=c++17</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) -ggdb -O3 -std=c++17</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -238,11 +238,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLM_ENABLE_EXPERIMENTAL;TINYOBJLOADER_IMPLEMENTATION;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\tjwal\projects\vertex_stream\ugli\.;C:\Users\tjwal\projects\vertex_stream\ugli\.\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\glad\include;C:\Users\tjwal\projects\vertex_stream\ugli\.\freetype;C:\Boost\include\boost-1_73;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -342,6 +342,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\raytracer.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\shader.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\split_triangle.h" />
+    <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\stream_preprocessor.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\structures.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\text.h" />
     <ClInclude Include="C:\Users\tjwal\projects\vertex_stream\ugli\include\texture.h" />

@@ -154,20 +154,25 @@ public:
             _proto_node.children[i] = -1;
         }
         _last_tri = 0;
-        set_data_from_files();
-        load_model();
+        if (set_data_from_files())
+        {
+            load_model();
+        }
     }
 
-    void set_data_from_files()
+    bool set_data_from_files()
     {
+        bool generate = false;
         if (!std::filesystem::exists(_octree_filepath))
         {
+            generate = true; 
             FILE * fd = fopen(_octree_filepath.c_str(), "wb");
             fwrite(reinterpret_cast<void*>(&_proto_node), sizeof(Node), 1, fd);
             fclose(fd);
         }
         if (!std::filesystem::exists(_tri_filepath))
         {
+            generate = true; 
             FILE * fd = fopen(_tri_filepath.c_str(), "wb");
             Triangle temp_tri;
             fwrite(reinterpret_cast<void*>(&temp_tri), sizeof(Triangle), 1, fd);
@@ -175,6 +180,7 @@ public:
         }
         if (!std::filesystem::exists(_norm_filepath))
         {
+            generate = true; 
             FILE * fd = fopen(_norm_filepath.c_str(), "wb");
             glm::vec3 temp_vec;
             fwrite(reinterpret_cast<void*>(&temp_vec), sizeof(glm::vec3), 1, fd);
@@ -190,6 +196,7 @@ public:
         _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
         _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
         _from_file = true;
+        return generate;
     }
 
     void load_model()

@@ -27,6 +27,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     find_library(dl dl)
     find_library(freetype freetype)
     find_library(boost_iostreams boost_iostreams)
+    message(CMAKE_BUILD_TYPE)
+    set(MY_DEFINITION 
+        $<$<CONFIG:Debug>:definition_for_debug>
+        $<$<CONFIG:RelWithDebInfo>:definition_for_rel_with_debug>
+        $<$<CONFIG:Release>:definition_for_release> 
+        $<$<CONFIG:MinSizeRel>:definition_for_tight_release>
+                        )
     target_link_libraries(ugli ${dl})
     target_link_libraries(ugli stdc++fs)
     target_link_libraries(ugli ${boost_iostreams})
