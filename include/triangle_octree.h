@@ -16,13 +16,13 @@
 
 bool RayIntersectsTriangle(const glm::vec3& rayOrigin,
                            const glm::vec3& rayVector,
-                           Triangle& inTriangle,
+                           const Triangle& inTriangle,
                            glm::vec3& outIntersectionPoint)
 {
     const float EPSILON = 0.00000001;
-    glm::vec3& vertex0 = inTriangle[0];
-    glm::vec3& vertex1 = inTriangle[1];
-    glm::vec3& vertex2 = inTriangle[2];
+    const glm::vec3& vertex0 = inTriangle[0];
+    const glm::vec3& vertex1 = inTriangle[1];
+    const glm::vec3& vertex2 = inTriangle[2];
     glm::vec3 edge1, edge2, h, s, q;
     float a,f,u,v;
     edge1 = (vertex1 - vertex0)*1.0f;
@@ -121,11 +121,15 @@ public:
     TriangleOctree(Node * data, 
         Triangle * tri_data,
         glm::vec3 * norm_data,
-        size_t length):
+        size_t length,
+        const glm::vec3& offset = glm::vec3(0),
+        float scale = 1.0) :
         _data(data),
         _tri_data(tri_data),
         _norm_data(norm_data),
-        _length(length)
+        _length(length),
+        _offset(offset),
+        _scale(scale)
     {
         _proto_node.size = 10;
         _proto_node.loc = glm::vec3(0);
@@ -141,11 +145,15 @@ public:
     TriangleOctree(const std::string& octree_filepath, 
         const std::string& tri_filepath,
         const std::string& norm_filepath,
-        const std::string& obj_filepath):
+        const std::string& obj_filepath,
+        const glm::vec3& offset=glm::vec3(0),
+        float scale=1.0):
             _octree_filepath(octree_filepath),
             _tri_filepath(tri_filepath),
             _obj_filepath(obj_filepath),
-            _norm_filepath(norm_filepath)
+            _norm_filepath(norm_filepath),
+            _offset(offset),
+            _scale(scale)
     {
         _proto_node.size = 10;
         _proto_node.loc = glm::vec3(0);
@@ -158,6 +166,65 @@ public:
         {
             load_model();
         }
+    }
+
+    void close_files()
+    {
+        if (_octree_file.is_open())
+        {
+            _octree_file.close();
+        }
+        if (_tri_file.is_open())
+        {
+            _tri_file.close();
+        }
+        if (_norm_file.is_open())
+        {
+            _norm_file.close();
+        }
+    }
+
+    bool open_files_write()
+    {
+        close_files();
+        _octree_file.open(_octree_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+        _tri_file.open(_tri_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+        _norm_file.open(_norm_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+
+        if (!_octree_file.is_open() || !_tri_file.is_open() || !_norm_file.is_open())
+        {
+            assert(_octree_file.is_open());
+            assert(_tri_file.is_open());
+            assert(_norm_file.is_open());
+            return false;
+        }
+        _data = reinterpret_cast<Node*>(_octree_file.data());
+        _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
+        _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
+        _c_data = reinterpret_cast<const Node*>(_octree_file.const_data());
+        _tri_c_data = reinterpret_cast<const Triangle*>(_tri_file.const_data());
+        _norm_c_data = reinterpret_cast<const glm::vec3*>(_norm_file.const_data());
+        return true;
+    }
+
+    bool open_files_read()
+    {
+        close_files();
+        _octree_file.open(_octree_filepath, std::ios_base::in | std::ios_base::binary);
+        _tri_file.open(_tri_filepath, std::ios_base::in | std::ios_base::binary);
+        _norm_file.open(_norm_filepath, std::ios_base::in | std::ios_base::binary);
+        
+        if (!_octree_file.is_open() || !_tri_file.is_open() || !_norm_file.is_open())
+        {
+            assert(_octree_file.is_open());
+            assert(_tri_file.is_open());
+            assert(_norm_file.is_open());
+            return false;
+        }
+        _c_data = reinterpret_cast<const Node*>(_octree_file.const_data());
+        _tri_c_data = reinterpret_cast<const Triangle*>(_tri_file.const_data());
+        _norm_c_data = reinterpret_cast<const glm::vec3*>(_norm_file.const_data());
+        return true;
     }
 
     bool set_data_from_files()
@@ -189,18 +256,14 @@ public:
         auto _filesize = std::filesystem::file_size(_octree_filepath);
         auto _tri_filesize = std::filesystem::file_size(_tri_filepath);
         auto _norm_filesize = std::filesystem::file_size(_norm_filepath);
-        _octree_file.open(_octree_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
-        _tri_file.open(_tri_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
-        _norm_file.open(_norm_filepath, std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::app);
-        _data = reinterpret_cast<Node*>(_octree_file.data());
-        _tri_data = reinterpret_cast<Triangle*>(_tri_file.data());
-        _norm_data = reinterpret_cast<glm::vec3*>(_norm_file.data());
+        open_files_read();
         _from_file = true;
         return generate;
     }
 
     void load_model()
     {
+        open_files_write();
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
@@ -290,7 +353,7 @@ public:
                 {
                     printf("face %d\n", f);
                 }
-                float scale = 1.0/100.0;///15.0;
+                float scale = _scale;///15.0;
                 for (size_t v = 0; v < fv; v++) {
                   // access to vertex
                   tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
@@ -302,9 +365,9 @@ public:
                   //norm.z = attrib.normals[3 * idx.normal_index + 2];
                   
                   //test_tri[v][0] = scale * vx + 2.0;
-                  test_tri[v][0] = scale*vx + 5.0;
-                  test_tri[v][1] = scale*vy + 5.0;
-                  test_tri[v][2] = scale*vz + 5.0;
+                  test_tri[v][0] = scale * vx + _offset.x;
+                  test_tri[v][1] = scale * vy + _offset.y;
+                  test_tri[v][2] = scale * vz + _offset.z;
                   //test_tri[v][2] = scale*vz + 9.0;
                 }
                 norm = glm::normalize(glm::cross(test_tri[1] - test_tri[0], test_tri[0] - test_tri[2]));
@@ -322,6 +385,7 @@ public:
             }
             printf("model tree created\n");
         }
+        open_files_read();
     }
 
     float largest_side(const Triangle& tri) const
@@ -372,7 +436,7 @@ public:
     }
 
     int child_index_of_point(const glm::vec3& coord, 
-        glm::vec3& node_loc, 
+        const glm::vec3& node_loc, 
         float size, 
         glm::vec3& child_pos) const
     {
@@ -661,70 +725,101 @@ public:
         int child_index;
         while(1)
         {
-            child_index = child_index_of_point(point, _data[c_node].loc, _data[c_node].size, child_pos);
-            float c_size = _data[c_node].size;
+            child_index = child_index_of_point(point, _c_data[c_node].loc, _c_data[c_node].size, child_pos);
+            float c_size = _c_data[c_node].size;
             if (child_index < 0)
             {
-                printf("Point not in node!!!\n");
-                print_vertex(point);
-                printf("\n");
-                print_vertex(_data[c_node].loc);
-                printf("\n size %f\n", _data[c_node].size);
-                assert(child_index >= 0);
+                node_loc = _c_data[c_node].loc;
+                size = _c_data[c_node].size;
+                found_handle = Node::invalid_handle;
+                return false;
             }
-            if (_data[c_node].tri_count && checked.find(c_node) != checked.end())
+            if (_c_data[c_node].tri_count && checked.find(c_node) == checked.end())
             {
                 checked.insert(c_node);
-                for (int i = 0; i < _data[c_node].tri_count; ++i)
+                for (int i = 0; i < _c_data[c_node].tri_count; ++i)
                 {
                     glm::vec3 hit_point;
-                    bool hit = RayIntersectsTriangle(point, dir, _tri_data[_data[c_node].tris[i]], hit_point);
+                    bool hit = RayIntersectsTriangle(point, dir, _tri_c_data[_c_data[c_node].tris[i]], hit_point);
                     if (hit)
                     {
                         if (glm::dot(hit_point - point, dir) > 0)
                         {
                             vtx = hit_point;
-                            normal = _norm_data[_data[c_node].tris[i]];
+                            normal = _norm_c_data[_c_data[c_node].tris[i]];
+                            found_handle = c_node; 
                             return true;
                         }
                     }
                 }
             }
-            if (_data[c_node].children[child_index] >= 0)
+            if (_c_data[c_node].children[child_index] >= 0)
             {
-                c_node = _data[c_node].children[child_index]; 
+                c_node = _c_data[c_node].children[child_index]; 
             }
             else
             {
                 node_loc = child_pos;
-                size = _data[c_node].size/2.0;
+                size = _c_data[c_node].size/2.0;
+                found_handle = c_node;
                 return false;
             }
         }
     }
 
-    glm::vec3 propogate_ray(const glm::vec3& origin, 
+    glm::vec3 propogate_ray(const glm::vec3& origin_in, 
         const glm::vec3& dir, 
         bool& found_tri, 
         glm::vec3& vtx, 
         glm::vec3& normal, 
-        std::unordered_set<int>& checked) const
+        std::unordered_set<int>& checked,
+        bool& missed) const
     {
+        glm::vec3 origin = origin_in - _offset;
+        missed = false;
         NodeHandle found_handle;
         glm::vec3 child_pos;
         glm::vec3 node_loc;
         float size;
         found_tri = find_largest_non_container(origin, dir, node_loc, size, found_handle, vtx, normal, checked);
+        vtx += _offset;
         glm::vec2 x = intersect_box(origin, dir, node_loc, size);
+        if (found_handle == Node::invalid_handle)
+        {
+            glm::vec3 intersect_point = origin + dir * (x.x);
+            glm::vec3 to_center_real = intersect_point - (node_loc + glm::vec3(size / 2.0));
+            glm::vec3 to_center = glm::abs(to_center_real);
+            glm::vec3 n(glm::sign(to_center_real.x) * float(int(to_center.x >= to_center.y && to_center.x >= to_center.z)),
+                glm::sign(to_center_real.y) * float(int(to_center.y > to_center.x&& to_center.y >= to_center.z)),
+                glm::sign(to_center_real.z)* float(int(to_center.z > to_center.x&& to_center.z > to_center.y)));
+            if (x.x > 0 && x.x < x.y)
+            {
+                return origin + dir * (x.x) + (-n) * glm::max(size * 0.01f, 0.0001f) + _offset;
+            }
+            else
+            {
+                missed = true;
+                return glm::vec3(0);
+            }
+        }
+        else if (found_handle == _root)
+        {
+            missed = true;
+            return glm::vec3(0);
+            
+        }
+        else
+        {
+            glm::vec3 intersect_point = origin + dir * (x.y);
+            glm::vec3 to_center_real = intersect_point - (node_loc + glm::vec3(size / 2.0));
+            glm::vec3 to_center = glm::abs(to_center_real);
+            glm::vec3 n(glm::sign(to_center_real.x) * float(int(to_center.x >= to_center.y && to_center.x >= to_center.z)),
+                glm::sign(to_center_real.y) * float(int(to_center.y > to_center.x&& to_center.y >= to_center.z)),
+                glm::sign(to_center_real.z)* float(int(to_center.z > to_center.x&& to_center.z > to_center.y)));
 
-        glm::vec3 intersect_point = origin + dir * (x.y);
-        glm::vec3 to_center_real = intersect_point - (node_loc + glm::vec3(size/2.0));
-        glm::vec3 to_center = glm::abs(to_center_real);
-        glm::vec3 n(glm::sign(to_center_real.x)*float(int(to_center.x >= to_center.y && to_center.x >= to_center.z)),
-            glm::sign(to_center_real.y)* float(int(to_center.y > to_center.x && to_center.y >= to_center.z)),
-            glm::sign(to_center_real.z)* float(int(to_center.z > to_center.x && to_center.z > to_center.y)));
-
-        return origin + dir * (x.y) + n * glm::max( size * 0.01f, 0.0001f );
+            return origin + dir * (x.y) + n * glm::max(size * 0.01f, 0.0001f) + _offset;
+        }
+        
     }
 
     int size() const
@@ -733,7 +828,8 @@ public:
     }
 
     NodeHandle _last_node = 0;
-
+    glm::vec3 _offset;
+    float _scale;
 private:
     std::string _octree_filepath;
     std::string _tri_filepath;
@@ -747,9 +843,15 @@ private:
     int _norm_filesize;
     bool _from_file;
     size_t _length;
+
     Node * _data;
     Triangle* _tri_data;
     glm::vec3* _norm_data;
+
+    const Node* _c_data;
+    const Triangle* _tri_c_data;
+    const glm::vec3* _norm_c_data;
+
     Node _proto_node;
     NodeHandle _root = 0;
     int _last_tri = -1;
