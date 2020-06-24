@@ -44,7 +44,7 @@ public:
         _octrees.push_back(in_octree);
     }
 
-    void fire_ray(const glm::vec3& origin, const glm::vec3& dir, glm::vec3& vertex, glm::vec3& normal)
+    void fire_ray(const glm::vec3& origin, const glm::vec3& dir, glm::vec3& vertex, glm::vec3& normal, int& reason)
     {
         std::vector<glm::vec3> positions(_octrees.size(), origin);
         std::vector<bool> finished(_octrees.size(), false);
@@ -55,7 +55,7 @@ public:
         while (!found_tri)
         {
             bool missed = false;
-            positions[min_i] = _octrees[min_i].propogate_ray(positions[min_i], dir, found_tri, vertex, normal, checked[min_i], missed);
+            positions[min_i] = _octrees[min_i].propogate_ray(positions[min_i], dir, found_tri, vertex, normal, checked[min_i], missed, reason);
             float cor = glm::dot(glm::normalize(positions[min_i] - origin), glm::normalize(dir));
             if (missed)
             {
@@ -110,17 +110,20 @@ public:
                 float y_frac = (y+0.5) * 1.0 / y_res;
 
                 glm::vec3 dir = cam.get_ray(x_frac, y_frac);
-                fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x]);
+                int reason = 0;
+                fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x], reason);
+
                 //_pixel_vertices[y][x] = cam.get_pos() + dir * 5.0f;
                 //_pixel_normals[y][x] = dir;
 
                 _pixel_light[y][x] = glm::vec2(1.0) * std::max(0.0f, glm::dot(_pixel_normals[y][x], glm::normalize(glm::vec3(-1, -1, 0))));
+                //_pixel_light[y][x] = glm::vec2(1.0) * (reason*1.0f/6.0f);
                 //_pixel_light[y][x] = glm::vec2(1.0) * glm::length(cam.get_pos() - _pixel_vertices[y][x]);
             }
         }
     }
 
-    void refresh(int x_divs=1, int y_divs=1)
+    void refresh(int x_divs=5, int y_divs=5)
     {
         for (int i = 0; i < _y_res; ++i)
         {

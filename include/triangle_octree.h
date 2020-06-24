@@ -105,6 +105,7 @@ public:
     struct Node
     {
         static const NodeHandle invalid_handle = -1;
+        static const NodeHandle nonexistent_handle = -2;
         //std::array<Triangle, MAX_TRIS> tris = {
         //    {glm::vec3(0), glm::vec3(0), glm::vec3(0)}
         //};
@@ -773,7 +774,7 @@ public:
             {
                 node_loc = child_pos;
                 size = _c_data[c_node].size/2.0;
-                found_handle = c_node;
+                found_handle = Node::nonexistent_handle;
                 return false;
             }
         }
@@ -792,7 +793,8 @@ public:
         glm::vec3& vtx, 
         glm::vec3& normal, 
         std::unordered_set<int>& checked,
-        bool& missed) const
+        bool& missed,
+        int& reason) const
     {
         glm::vec3 origin = origin_in;
         origin = origin_in - _offset;
@@ -825,19 +827,21 @@ public:
                 
                 out_point = scale_from_point(out_point, glm::vec3(0), _scale);
                 out_point = out_point + _offset;
+                reason = 1;
                 return out_point;
             }
             else
             {
                 missed = true;
+                reason = 2;
                 return glm::vec3(0);
             }
         }
         else if (found_handle == _root)
         {
             missed = true;
+            reason = 3;
             return glm::vec3(0);
-            
         }
         else
         {
@@ -851,9 +855,10 @@ public:
             glm::vec3 out_point = origin + dir * (x.y) + n * glm::max(size * 0.01f, 0.0001f);
             out_point = scale_from_point(out_point, glm::vec3(0), _scale);
             out_point = out_point + _offset;
+            reason = 0;
             return out_point;
         }
-        
+        reason = 5;
     }
 
     int size() const
