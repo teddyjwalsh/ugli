@@ -1,0 +1,5 @@
+Issue: Black areas seemingly around octree borders
+
+- Seems like maybe it's missing surface triangles and hitting
+  subsurface triangles which aren't light-facing
+

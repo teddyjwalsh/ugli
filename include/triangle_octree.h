@@ -328,8 +328,8 @@ public:
                 index_offset += fv;
               }
             }
-            min_vec -= glm::vec3(1);
-            max_vec += glm::vec3(1);
+            min_vec -= glm::vec3(0.5);
+            max_vec += glm::vec3(0.5);
             glm::vec3 diff = max_vec - min_vec;
             float temp_size = std::max({diff.x, diff.y, diff.z});
             _proto_node.loc = min_vec;
@@ -740,20 +740,29 @@ public:
             if (_c_data[c_node].tri_count && checked.find(c_node) == checked.end())
             {
                 checked.insert(c_node);
+                glm::vec3 min_hit_point = glm::vec3(1000000);
+                glm::vec3 min_hit_norm;
+                bool hit_one = false;
                 for (int i = 0; i < _c_data[c_node].tri_count; ++i)
                 {
                     glm::vec3 hit_point;
                     bool hit = RayIntersectsTriangle(point, dir, _tri_c_data[_c_data[c_node].tris[i]], hit_point);
                     if (hit)
                     {
-                        if (glm::dot(hit_point - point, dir) > 0)
+                        if (glm::length(point - hit_point) < glm::length(point - min_hit_point))
                         {
-                            vtx = hit_point;
-                            normal = _norm_c_data[_c_data[c_node].tris[i]];
-                            found_handle = c_node; 
-                            return true;
+                            min_hit_point = hit_point;
+                            min_hit_norm = _norm_c_data[_c_data[c_node].tris[i]];
                         }
+                        hit_one = true;
                     }
+                }
+                if (hit_one && glm::dot(min_hit_point - point, dir) > 0)
+                {
+                    vtx = min_hit_point;
+                    normal = min_hit_norm;
+                    found_handle = c_node;
+                    return true;
                 }
             }
             if (_c_data[c_node].children[child_index] >= 0)

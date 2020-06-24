@@ -113,7 +113,9 @@ public:
                 fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x]);
                 //_pixel_vertices[y][x] = cam.get_pos() + dir * 5.0f;
                 //_pixel_normals[y][x] = dir;
+
                 _pixel_light[y][x] = glm::vec2(1.0) * std::max(0.0f, glm::dot(_pixel_normals[y][x], glm::normalize(glm::vec3(-1, -1, 0))));
+                //_pixel_light[y][x] = glm::vec2(1.0) * glm::length(cam.get_pos() - _pixel_vertices[y][x]);
             }
         }
     }
