@@ -2,4 +2,6 @@ Issue: Black areas seemingly around octree borders
 
 - Seems like maybe it's missing surface triangles and hitting
   subsurface triangles which aren't light-facing
+- Increasing the margin on the triangle intersect function improves appearance
+  at least at first glance
 

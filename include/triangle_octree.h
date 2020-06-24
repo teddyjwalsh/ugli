@@ -40,7 +40,7 @@ bool RayIntersectsTriangle(const glm::vec3& rayOrigin,
     f = 1.0/a;
     s = rayOrigin - vertex0;
     u = f * glm::dot(s,h);
-    float margin = 0.01;
+    float margin = 0.5;
     if (u < 0.0 - margin || u > 1.0 + margin)
     {
         //print_vertex(rayOrigin); printf("\n");
