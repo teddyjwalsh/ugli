@@ -328,9 +328,12 @@ public:
                 index_offset += fv;
               }
             }
+            min_vec -= glm::vec3(1);
+            max_vec += glm::vec3(1);
             glm::vec3 diff = max_vec - min_vec;
-            _proto_node.size = std::max({diff.x, diff.y, diff.z});
+            float temp_size = std::max({diff.x, diff.y, diff.z});
             _proto_node.loc = min_vec;
+            _proto_node.size = temp_size ;
             printf("Root Node:\n");
             print_vertex(_proto_node.loc);
             printf("\n\t%f\n", _proto_node.size);
@@ -360,9 +363,9 @@ public:
                   tinyobj::real_t vx = attrib.vertices[3*idx.vertex_index+0];
                   tinyobj::real_t vy = attrib.vertices[3*idx.vertex_index+1];
                   tinyobj::real_t vz = attrib.vertices[3*idx.vertex_index+2];
-                  //norm.x = attrib.normals[3 * idx.normal_index + 0];
-                  //norm.y = attrib.normals[3 * idx.normal_index + 1];
-                  //norm.z = attrib.normals[3 * idx.normal_index + 2];
+                  norm.x = attrib.normals[3 * idx.normal_index + 0];
+                  norm.y = attrib.normals[3 * idx.normal_index + 1];
+                  norm.z = attrib.normals[3 * idx.normal_index + 2];
                   
                   //test_tri[v][0] = scale * vx + 2.0;
                   test_tri[v][0] = scale * vx;// +_offset.x;
@@ -784,7 +787,7 @@ public:
     {
         glm::vec3 origin = origin_in;
         origin = origin_in - _offset;
-        origin = scale_from_point(origin, _offset, 1.0 / _scale);
+        origin = scale_from_point(origin, glm::vec3(0), 1.0 / _scale);
 
         missed = false;
         NodeHandle found_handle;
@@ -793,8 +796,11 @@ public:
         float size;
         found_tri = find_largest_non_container(origin, dir, node_loc, size, found_handle, vtx, normal, checked);
         
-        vtx = scale_from_point(vtx, _offset, _scale);
-        vtx += _offset;
+        if (found_tri)
+        {
+            vtx = scale_from_point(vtx, glm::vec3(0), _scale);
+            vtx += _offset;
+        }
         glm::vec2 x = intersect_box(origin, dir, node_loc, size);
         if (found_handle == Node::invalid_handle)
         {
@@ -808,7 +814,7 @@ public:
             {
                 glm::vec3 out_point = origin + dir * (x.x) + (-n) * glm::max(size * 0.01f, 0.0001f);
                 
-                out_point = scale_from_point(out_point, _offset, _scale);
+                out_point = scale_from_point(out_point, glm::vec3(0), _scale);
                 out_point = out_point + _offset;
                 return out_point;
             }
@@ -834,7 +840,7 @@ public:
                 glm::sign(to_center_real.z)* float(int(to_center.z > to_center.x&& to_center.z > to_center.y)));
 
             glm::vec3 out_point = origin + dir * (x.y) + n * glm::max(size * 0.01f, 0.0001f);
-            out_point = scale_from_point(out_point, _offset, _scale);
+            out_point = scale_from_point(out_point, glm::vec3(0), _scale);
             out_point = out_point + _offset;
             return out_point;
         }

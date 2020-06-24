@@ -30,8 +30,8 @@ public:
         _program(std::make_shared<graphics::Program>()),
         _ray_camera(glm::vec3(1), glm::vec3(0))
     {
-        _pixel_vertices = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-10000)));
-        _pixel_normals = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-10000)));
+        _pixel_vertices = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-69420)));
+        _pixel_normals = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-69420)));
         _pixel_light = std::vector<std::vector<glm::vec2>>(y_res, std::vector<glm::vec2>(x_res, glm::vec2(1.0)));
         _program->add_shader(_vertex_shader);
         _program->add_shader(_fragment_shader);
@@ -56,6 +56,7 @@ public:
         {
             bool missed = false;
             positions[min_i] = _octrees[min_i].propogate_ray(positions[min_i], dir, found_tri, vertex, normal, checked[min_i], missed);
+            float cor = glm::dot(glm::normalize(positions[min_i] - origin), glm::normalize(dir));
             if (missed)
             {
                 finished[min_i] = true;
@@ -105,38 +106,59 @@ public:
         {
             for (int y = start_y; y < end_y; ++y)
             {
-                float x_frac = x * 1.0 / x_res;
-                float y_frac = y * 1.0 / y_res;
+                float x_frac = (x+0.5) * 1.0 / x_res;
+                float y_frac = (y+0.5) * 1.0 / y_res;
 
                 glm::vec3 dir = cam.get_ray(x_frac, y_frac);
                 fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x]);
+                //_pixel_vertices[y][x] = cam.get_pos() + dir * 5.0f;
+                //_pixel_normals[y][x] = dir;
+                _pixel_light[y][x] = glm::vec2(1.0) * std::max(0.0f, glm::dot(_pixel_normals[y][x], glm::normalize(glm::vec3(-1, -1, 0))));
             }
         }
     }
 
     void refresh(int x_divs=1, int y_divs=1)
     {
-        
-        for (int x = 0; x < _x_res; x += _x_res / x_divs)
+        for (int i = 0; i < _y_res; ++i)
         {
-            for (int y = 0; y < _y_res; y += _y_res / y_divs)
+            for (int j = 0; j < _x_res; ++j)
             {
-                _pixel_threads.push_back(
-                    new std::thread(&StreamPreprocessor::fire_ray_chunk, this,
-                        x, std::min({ x + _x_res / x_divs, _x_res }),
-                        y, std::min({ y + _y_res / x_divs, _y_res }),
-                        _x_res, _y_res,
-                        _ray_camera));
+                _pixel_vertices[i][j].x = -69420;
+                _pixel_vertices[i][j].y = -69420;
+                _pixel_vertices[i][j].z = -69420;
+                _pixel_normals[i][j].x = -69420;
+                _pixel_normals[i][j].y = -69420;
+                _pixel_normals[i][j].z = -69420;
+                _pixel_light[i][j].x = 1.0;
+                _pixel_light[i][j].y = 1.0;
+            }
+        }
+        if (1)
+        {
+            for (int x = 0; x < _x_res; x += _x_res / x_divs)
+            {
+                for (int y = 0; y < _y_res; y += _y_res / y_divs)
+                {
+                    _pixel_threads.push_back(
+                        new std::thread(&StreamPreprocessor::fire_ray_chunk, this,
+                            x, std::min({ x + _x_res / x_divs, _x_res }),
+                            y, std::min({ y + _y_res / x_divs, _y_res }),
+                            _x_res, _y_res,
+                            _ray_camera));
+                }
             }
         }
         for (auto t : _pixel_threads)
         {
             t->join();
+            delete t;
         }
         while (_data_available)
         {
             Sleep(5);
         }
+        _pixel_threads.clear();
         _data_mutex.lock();
         _out_vertices.clear();
         _out_normals.clear();
@@ -208,9 +230,9 @@ void weave_plane(std::vector<std::vector<glm::vec3>>& vertices,
                         int(vertices[col - 1][row].x > -10000)) >= 7
                     )
                 {
-                    vertices[col][row] = vertices[col - 1][row - 1];
-                    in_normals[col][row] = in_normals[col - 1][row - 1];
-                    in_light[col][row] = in_light[col - 1][row - 1];
+                    //vertices[col][row] = vertices[col - 1][row - 1];
+                    //in_normals[col][row] = in_normals[col - 1][row - 1];
+                    //in_light[col][row] = in_light[col - 1][row - 1];
                 }
             }
         }

@@ -8,9 +8,9 @@ class RayCamera
 public:
     RayCamera(glm::vec3 pos, glm::vec3 lookat):
         _pos(pos),
-        _theta(60*3.14159/180),
-        _phi(60*3.14159/180),
-        _f(0.1),
+        _theta(72*3.14159/180),
+        _phi(72*3.14159/180),
+        _f(1.0),
         _look_at(lookat)
     {
         _forward = glm::normalize(lookat - pos);
