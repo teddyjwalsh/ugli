@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <array>
-#include <unordered_set>
+#include <set>
 #include <filesystem>
 #include "glm/glm.hpp"
 #include <boost/iostreams/device/mapped_file.hpp>
@@ -40,7 +40,7 @@ bool RayIntersectsTriangle(const glm::vec3& rayOrigin,
     f = 1.0/a;
     s = rayOrigin - vertex0;
     u = f * glm::dot(s,h);
-    float margin = 0.5;
+    float margin = 0.3;
     if (u < 0.0 - margin || u > 1.0 + margin)
     {
         //print_vertex(rayOrigin); printf("\n");
@@ -722,7 +722,7 @@ public:
         NodeHandle& found_handle, 
         glm::vec3& vtx, 
         glm::vec3& normal, 
-        std::unordered_set<int>& checked) const
+        std::vector<int>& checked) const
     {
         NodeHandle c_node = _root;
         glm::vec3 child_pos;
@@ -738,9 +738,9 @@ public:
                 found_handle = Node::invalid_handle;
                 return false;
             }
-            if (_c_data[c_node].tri_count && checked.find(c_node) == checked.end())
+            if (_c_data[c_node].tri_count && std::find(checked.begin(), checked.end(), c_node) == checked.end())
             {
-                checked.insert(c_node);
+                checked.push_back(c_node);
                 glm::vec3 min_hit_point = glm::vec3(1000000);
                 glm::vec3 min_hit_norm;
                 bool hit_one = false;
@@ -792,7 +792,7 @@ public:
         bool& found_tri, 
         glm::vec3& vtx, 
         glm::vec3& normal, 
-        std::unordered_set<int>& checked,
+        std::vector<int>& checked,
         bool& missed,
         int& reason) const
     {

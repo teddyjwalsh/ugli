@@ -33,6 +33,8 @@ public:
         _pixel_vertices = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-69420)));
         _pixel_normals = std::vector<std::vector<glm::vec3>>(y_res, std::vector<glm::vec3>(x_res, glm::vec3(-69420)));
         _pixel_light = std::vector<std::vector<glm::vec2>>(y_res, std::vector<glm::vec2>(x_res, glm::vec2(1.0)));
+        _pixel_checked = std::vector<std::vector<std::vector<int>>>(y_res, std::vector<std::vector<int>>(x_res));
+
         _program->add_shader(_vertex_shader);
         _program->add_shader(_fragment_shader);
         _program->compile_and_link();
@@ -44,18 +46,22 @@ public:
         _octrees.push_back(in_octree);
     }
 
-    void fire_ray(const glm::vec3& origin, const glm::vec3& dir, glm::vec3& vertex, glm::vec3& normal, int& reason)
+    void fire_ray(const glm::vec3& origin, const glm::vec3& dir, 
+        glm::vec3& vertex, glm::vec3& normal, 
+        int& reason,
+        std::vector<int>& checked)
     {
         std::vector<glm::vec3> positions(_octrees.size(), origin);
         std::vector<bool> finished(_octrees.size(), false);
-        std::vector<std::unordered_set<int>> checked(_octrees.size());
+        //std::vector<std::set<int>> checked(_octrees.size());
+        //std::vector<std::vector<int>> checked(_octrees.size()std::vector<);
         int min_i = 0;
         bool found_tri = false;
         
         while (!found_tri)
         {
             bool missed = false;
-            positions[min_i] = _octrees[min_i].propogate_ray(positions[min_i], dir, found_tri, vertex, normal, checked[min_i], missed, reason);
+            positions[min_i] = _octrees[min_i].propogate_ray(positions[min_i], dir, found_tri, vertex, normal, checked, missed, reason);
             float cor = glm::dot(glm::normalize(positions[min_i] - origin), glm::normalize(dir));
             if (missed)
             {
@@ -75,6 +81,7 @@ public:
                     break;
                 }
             }
+            
             int finished_count = 0;
             for (int i = 0; i < positions.size(); ++i)
             {
@@ -94,6 +101,7 @@ public:
             {
                 break;
             }
+            
         }
     }
 
@@ -111,7 +119,7 @@ public:
 
                 glm::vec3 dir = cam.get_ray(x_frac, y_frac);
                 int reason = 0;
-                fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x], reason);
+                fire_ray(cam.get_pos(), dir, _pixel_vertices[y][x], _pixel_normals[y][x], reason, _pixel_checked[y][x]);
 
                 //_pixel_vertices[y][x] = cam.get_pos() + dir * 5.0f;
                 //_pixel_normals[y][x] = dir;
@@ -123,7 +131,7 @@ public:
         }
     }
 
-    void refresh(int x_divs=5, int y_divs=5)
+    void refresh(int x_divs=10, int y_divs=10)
     {
         for (int i = 0; i < _y_res; ++i)
         {
@@ -137,10 +145,12 @@ public:
                 _pixel_normals[i][j].z = -69420;
                 _pixel_light[i][j].x = 1.0;
                 _pixel_light[i][j].y = 1.0;
+                _pixel_checked[i][j].clear();
             }
         }
         if (1)
         {
+            _cam_mutex.lock();
             for (int x = 0; x < _x_res; x += _x_res / x_divs)
             {
                 for (int y = 0; y < _y_res; y += _y_res / y_divs)
@@ -148,21 +158,24 @@ public:
                     _pixel_threads.push_back(
                         new std::thread(&StreamPreprocessor::fire_ray_chunk, this,
                             x, std::min({ x + _x_res / x_divs, _x_res }),
-                            y, std::min({ y + _y_res / x_divs, _y_res }),
+                            y, std::min({ y + _y_res / y_divs, _y_res }),
                             _x_res, _y_res,
                             _ray_camera));
                 }
             }
+            _cam_mutex.unlock();
         }
         for (auto t : _pixel_threads)
         {
             t->join();
             delete t;
         }
-        while (_data_available)
+        //while (_data_available)
         {
-            Sleep(5);
+            //Sleep(5);
         }
+        //Sleep(10);
+        _data_available = false;
         _pixel_threads.clear();
         _data_mutex.lock();
         _out_vertices.clear();
@@ -172,24 +185,31 @@ public:
             _out_vertices, _out_normals, _out_light);
         _data_mutex.unlock();
         _data_available = true;
+        _counter += 1;
     }
 
     void load_to_graphics()
     {
-        if (_data_available)
+        if (_prev_counter != _counter)
         {
-            _data_mutex.lock();
-            load_vertices(_out_vertices);
-            load_normals(_out_normals);
-            load_uvs(_out_light);
-            _data_mutex.unlock();
-            _data_available = false;
+            if (_data_mutex.try_lock())
+            {
+                //_data_mutex.lock();
+                load_vertices(_out_vertices);
+                load_normals(_out_normals);
+                load_uvs(_out_light);
+                _data_mutex.unlock();
+                _data_available = false;
+                _prev_counter = _counter;
+            }
         }
     }
 
     void set_cam(const glm::vec3& pos, const glm::vec3& lookat)
     {
+        _cam_mutex.lock();
         _ray_camera = RayCamera(pos, lookat);
+        _cam_mutex.unlock();
     }
 
 private:
@@ -199,13 +219,18 @@ private:
     std::vector <std::vector<glm::vec3>> _pixel_vertices;
     std::vector <std::vector<glm::vec3>> _pixel_normals;
     std::vector <std::vector<glm::vec2>> _pixel_light;
+    std::vector <std::vector<std::vector<int>>> _pixel_checked;
+
     std::vector<glm::vec3> _out_vertices;
     std::vector<glm::vec3> _out_normals;
     std::vector<glm::vec2> _out_light;
     std::vector<std::thread*> _pixel_threads;
     std::mutex _data_mutex;
     std::atomic_bool _data_available = false;
+    std::atomic_char _counter = 0;
+    char _prev_counter = 3;
     RayCamera _ray_camera;
+    std::mutex _cam_mutex;
     std::shared_ptr<graphics::Program> _program;
     std::shared_ptr<graphics::Shader> _vertex_shader;
     std::shared_ptr<graphics::Shader> _fragment_shader;
@@ -261,7 +286,8 @@ void weave_plane(std::vector<std::vector<glm::vec3>>& vertices,
 
             if (vertices[col][row].x > -10000 &&
                 vertices[col + 1][row].x > -10000 &&
-                vertices[col][row + 1].x > -10000)
+                vertices[col][row + 1].x > -10000 && 
+                glm::length(vertices[col][row] - vertices[col+1][row]) + glm::length(vertices[col][row] - vertices[col][row+1]) < 0.5)
             {
                 triangles.push_back(vertices[col][row]);
                 triangles.push_back(vertices[col + 1][row]);
@@ -275,7 +301,8 @@ void weave_plane(std::vector<std::vector<glm::vec3>>& vertices,
             }
             if (vertices[col + 1][row].x > -10000 &&
                 vertices[col + 1][row + 1].x > -10000 &&
-                vertices[col][row + 1].x > -10000)
+                vertices[col][row + 1].x > -10000 &&
+                glm::length(vertices[col+1][row] - vertices[col+1][row+1]) + glm::length(vertices[col+1][row] - vertices[col][row+1]) < 0.5)
             {
                 triangles.push_back(vertices[col + 1][row]);
                 triangles.push_back(vertices[col + 1][row + 1]);

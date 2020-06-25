@@ -88,7 +88,6 @@ namespace graphics
         glfwPollEvents();
         glfwGetFramebufferSize(window, &width, &height);
         glViewport(0, 0, width, height);
-        glClearColor(1, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
@@ -143,6 +142,7 @@ namespace graphics
         glEnable(GL_DEPTH_TEST);
         //glCullFace(GL_BACK);
         glFrontFace(GL_CW);
+        glClearColor(1, 0, 0, 1);
     }
 
     void draw_object(std::shared_ptr<Object> in_object)

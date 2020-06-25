@@ -27,7 +27,7 @@ public:
 		GLenum usage = GL_DYNAMIC_DRAW)
 	{
 		bind();
-		_local_copy = data;
+		//_local_copy = data;
 		glBufferData(_type, sizeof(T) * (data.size() + extra_buffer_space),
 			NULL,
 			usage);
@@ -41,7 +41,7 @@ public:
 		GLenum usage = GL_DYNAMIC_DRAW)
 	{
 		bind();
-		_local_copy = data;
+		//_local_copy = data;
 		glBufferData(_type, sizeof(T) * (data.size() + extra_buffer_space),
 			NULL,
 			usage);

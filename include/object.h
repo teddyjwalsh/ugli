@@ -37,24 +37,24 @@ class Object : public Entity
 
 	void load_vertices(std::vector<Vertex> vertices)
 	{
-		_vertices->load_data(vertices);
+		_vertices->load_data(vertices, 0);
 	}
 
 	void load_instances(std::vector <glm::vec3> instances)
 	{
-		_instances->load_data(instances);
+		_instances->load_data(instances, 0);
 
 		enable_instancing();
 	}
 
 	void load_normals(std::vector<glm::vec3> normals)
 	{
-		_normals->load_data(normals);
+		_normals->load_data(normals, 0);
 	}
 
 	void load_uvs(std::vector<glm::vec2> vertices)
 	{
-		_uvs->load_data(vertices);
+		_uvs->load_data(vertices, 0);
 	}
 
 	void enable_instancing(bool enable=true)
