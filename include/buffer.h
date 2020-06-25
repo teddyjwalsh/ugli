@@ -17,7 +17,8 @@ public:
 		_buffer_num(-1),
 		_type(type),
 		_mapped_data(nullptr),
-		_is_mapped(false)
+		_is_mapped(false),
+		_count(0)
 	{
 		glGenBuffers(1, &_buffer_num);
 	}

@@ -184,16 +184,25 @@ namespace graphics
         //glUniformMatrix4fv(model_mat_loc, 1, GL_FALSE, glm::value_ptr(model_mat));
         if (in_object->is_instanced())
         {
-            glDrawArraysInstanced(GL_TRIANGLES,
-                0,
-                in_object->vertex_count(),
-                in_object->get_instance_count());
+            int v_count = in_object->vertex_count();
+            int i_count = in_object->get_instance_count();
+            if (i_count && v_count)
+            {
+                glDrawArraysInstanced(GL_TRIANGLES,
+                    0,
+                    v_count,
+                    i_count);
+            }
         }
         else
         {
-            glDrawArrays(GL_TRIANGLES,
-                0,
-                in_object->vertex_count());
+            int v_count = in_object->vertex_count();
+            if (v_count)
+            {
+                glDrawArrays(GL_TRIANGLES,
+                    0,
+                    v_count);
+            }
         }
     }
 
